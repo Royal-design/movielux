@@ -8,6 +8,7 @@ import {
 } from "@/redux/features/movieApi";
 import { useMemo } from "react";
 import { HeroSlide } from "./HeroSlide";
+import { MovieWithTrailer } from "./MovieWithTrailer";
 
 export const HeroSection = () => {
   const {
@@ -44,26 +45,14 @@ export const HeroSection = () => {
       >
         {latestUpcomingMovies.map((movie) => (
           <SwiperSlide key={movie.id} className="relative">
-            <MovieHeroSlideWithTrailer movie={movie} />
+            <MovieWithTrailer movie={movie}>
+              {(movie, trailerKey) => (
+                <HeroSlide movie={movie} trailerKey={trailerKey} />
+              )}
+            </MovieWithTrailer>
           </SwiperSlide>
         ))}
       </Swiper>
     </div>
   );
-};
-
-// Separate component to fetch trailerKey for each movie
-const MovieHeroSlideWithTrailer = ({ movie }: { movie: any }) => {
-  const { data: videos } = useGetMovieVideosQuery(movie.id);
-
-  // Find the first YouTube trailer
-  const trailerKey = useMemo(() => {
-    if (!videos?.results) return undefined;
-    const trailer = videos.results.find(
-      (v) => v.site === "YouTube" && v.type === "Trailer"
-    );
-    return trailer?.key;
-  }, [videos]);
-
-  return <HeroSlide movie={movie} trailerKey={trailerKey} />;
 };

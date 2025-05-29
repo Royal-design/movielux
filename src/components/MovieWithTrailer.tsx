@@ -1,10 +1,25 @@
 import { useGetMovieVideosQuery } from "@/redux/features/movieApi";
 import { MovieCard } from "./MovieCard";
+import { useMemo } from "react";
 
-export function MovieWithTrailer({ movie }: { movie: any }) {
-  const { data: videoData } = useGetMovieVideosQuery(movie.id);
-  const trailer = videoData?.results?.find(
-    (v: any) => v.type === "Trailer" && v.site === "YouTube"
-  );
-  return <MovieCard movie={movie} trailerKey={trailer?.key} />;
+interface MovieWithTrailerProps {
+  movie: any;
+  children: (movie: any, trailerKey: string | undefined) => React.ReactNode;
 }
+
+export const MovieWithTrailer: React.FC<MovieWithTrailerProps> = ({
+  movie,
+  children
+}) => {
+  const { data: videos } = useGetMovieVideosQuery(movie.id);
+
+  const trailerKey = useMemo(() => {
+    if (!videos?.results) return undefined;
+    const trailer = videos.results.find(
+      (v) => v.site === "YouTube" && v.type === "Trailer"
+    );
+    return trailer?.key;
+  }, [videos]);
+
+  return <>{children(movie, trailerKey)}</>;
+};

@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/HeroSection";
+import { MovieCard } from "@/components/MovieCard";
 import { MovieWithTrailer } from "@/components/MovieWithTrailer";
 import { useGetPopularMoviesQuery } from "@/redux/features/movieApi";
 import React, { useMemo } from "react";
@@ -29,7 +30,11 @@ export const Home: React.FC = () => {
       <HeroSection />
       <div className="flex flex-wrap gap-4 p-4">
         {randomMovies.map((movie) => (
-          <MovieWithTrailer key={movie.id} movie={movie} />
+          <MovieWithTrailer movie={movie}>
+            {(movie, trailerKey) => (
+              <MovieCard movie={movie} trailerKey={trailerKey} />
+            )}
+          </MovieWithTrailer>
         ))}
       </div>
     </div>

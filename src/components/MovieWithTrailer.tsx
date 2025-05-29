@@ -1,5 +1,4 @@
 import { useGetMovieVideosQuery } from "@/redux/features/movieApi";
-import { MovieCard } from "./MovieCard";
 import { useMemo } from "react";
 
 interface MovieWithTrailerProps {

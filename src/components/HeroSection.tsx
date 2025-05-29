@@ -1,11 +1,8 @@
 import { SwiperSlide, Swiper } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Navigation, Autoplay } from "swiper/modules";
-import {
-  useGetUpcomingMoviesQuery,
-  useGetMovieVideosQuery
-} from "@/redux/features/movieApi";
+import { Navigation } from "swiper/modules";
+import { useGetUpcomingMoviesQuery } from "@/redux/features/movieApi";
 import { useMemo } from "react";
 import { HeroSlide } from "./HeroSlide";
 import { MovieWithTrailer } from "./MovieWithTrailer";

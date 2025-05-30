@@ -18,12 +18,12 @@ export const TvShowBanner: React.FC = () => {
   return (
     <div className="">
       {tvShow && (
-        <Card className="p-0 gap-0 w-80 h-full md:h-full rounded-none rounded-tr-3xl rounded-bl-3xl  overflow-hidden relative">
-          <CardContent className="p-0">
+        <Card className="p-0 gap-0 w-80 md:h-full rounded-none rounded-tr-3xl rounded-bl-3xl  overflow-hidden relative">
+          <CardContent className="p-0 h-full">
             <img
               src={`https://image.tmdb.org/t/p/original/${tvShow.poster_path}`}
               alt={getMediaTitle(tvShow)}
-              className="inset-0 h-full w-full object-cover z-0"
+              className="inset-0 absolute w-full h-full object-cover z-0"
             />
             <div className="absolute inset-0 w-full h-full flex flex-col justify-center pt-16 px-8 md:p-8 bg-background/80 z-10">
               <div className="text-white max-w-lg">

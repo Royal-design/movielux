@@ -22,7 +22,10 @@ type PropType = {
 };
 
 export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel(options);
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    ...options,
+    align: "start" // Ensures the first slide starts flush left
+  });
   const tweenFactor = useRef(0);
   const tweenNodes = useRef<HTMLElement[]>([]);
 
@@ -60,10 +63,8 @@ export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
           if (engine.options.loop) {
             engine.slideLooper.loopPoints.forEach((loopItem) => {
               const target = loopItem.target();
-
               if (slideIndex === loopItem.index && target !== 0) {
                 const sign = Math.sign(target);
-
                 if (sign === -1) {
                   diffToTarget = scrollSnap - (1 + scrollProgress);
                 }
@@ -99,26 +100,26 @@ export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
   }, [emblaApi, tweenParallax]);
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="">
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex touch-pan-y ml-[-1rem]">
-          {slides.map((show) => (
+        <div className="flex touch-pan-y">
+          {slides.map((show, index) => (
             <div
-              className="transform-gpu flex-[0_0_80%] min-w-0 pl-4"
               key={show.id}
+              className={`transform-gpu flex-[0_0_75%] min-w-0 ${
+                index !== 0 ? "pl-4" : ""
+              }`}
             >
               <div className="rounded-[1.8rem] overflow-hidden">
-                <div className="w-full flex flex-col embla__parallax__layer">
+                <div className="relative w-full flex justify-center embla__parallax__layer flex-col">
                   <img
-                    className="rounded-[1.8rem] block w-full object-cover"
+                    className="rounded-[1.8rem] w-full object-cover"
                     src={`https://image.tmdb.org/t/p/w500${show.backdrop_path}`}
                     alt={getMediaTitle(show)}
                   />
-
-                  {/* Overlay text BELOW the image instead of absolute on top */}
-                  <div className="bg-background/80 text-white p-4 max-w-2xl">
-                    <div className="w-full md:max-w-2xl md:mt-4">
-                      <p className="text-primary text-lg md:text-xl font-rajdhani mb-2">
+                  <div className="absolute inset-0 flex flex-col justify-end bg-background/80 text-white p-4 max-w-2xl">
+                    <div className="w-full md:max-w-2xl md:mt-16">
+                      <p className="text-primary text-lg md:text-xl font-rajdhani mb-4">
                         ★{" "}
                         <span className="text-white text-lg">
                           {show.vote_average} /{" "}
@@ -127,10 +128,10 @@ export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
                           {formatDate(getMediaReleaseDate(show))}
                         </span>
                       </p>
-                      <h2 className="text-xl md:text-3xl font-inter font-bold text-white mb-2">
+                      <h2 className="text-xl md:text-3xl font-inter font-bold text-white mb-4">
                         {getMediaTitle(show)}
                       </h2>
-                      <p className="text-white md:text-lg leading-relaxed mb-2 font-light">
+                      <p className="text-white text-base leading-relaxed mb-4 font-light">
                         {show.overview}
                       </p>
                     </div>
@@ -142,7 +143,7 @@ export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
         </div>
       </div>
 
-      <div className="flex justify-center gap-3 mt-7">
+      <div className="flex gap-3 pl-4 mt-7">
         <PrevButton
           onClick={onPrevButtonClick}
           disabled={prevBtnDisabled}

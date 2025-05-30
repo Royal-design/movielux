@@ -25,7 +25,7 @@ export const TopRatedTvShow: React.FC = () => {
   }, [TvShowData?.results]);
 
   return (
-    <div className="px-4 py-9 md:px-8 md:py-12 flex flex-col md:flex-row gap-8 w-full">
+    <div className="px-4 py-9 md:px-8 md:py-12 flex flex-col md:flex-row gap-4  w-full">
       <TvShowBanner />
 
       <div className="w-full">

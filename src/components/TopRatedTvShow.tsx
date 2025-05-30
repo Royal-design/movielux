@@ -20,16 +20,20 @@ export const TopRatedTvShow: React.FC = () => {
       const j = Math.floor(Math.random() * (i + 1));
       [tvShow[i], tvShow[j]] = [tvShow[j], tvShow[i]];
     }
-    // Take top 8 shuffled
     return tvShow.slice(0, 8);
   }, [TvShowData?.results]);
 
   return (
-    <div className="px-4 py-9 md:px-8 md:py-12 flex flex-col md:flex-row gap-4  w-full">
-      <TvShowBanner />
-
-      <div className="w-full">
-        <TopRatedSlide slides={topRatedTvShow} options={OPTIONS} />
+    <div className="px-4 py-9 md:px-8 md:py-12 h-full  w-full">
+      <div className="flex flex-row items-end w-full mb-12">
+        <h1 className="text-2xl md:text-3xl font-bold">Top Rated TV Shows</h1>
+        <div className="h-px flex-1 bg-primary/30 mb-1.5 ml-2"></div>
+      </div>
+      <div className="flex flex-col md:flex-row gap-4 w-full h-full">
+        <TvShowBanner />
+        <div className="w-full">
+          <TopRatedSlide slides={topRatedTvShow} options={OPTIONS} />
+        </div>
       </div>
     </div>
   );

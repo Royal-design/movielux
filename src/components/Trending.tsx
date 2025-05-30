@@ -9,7 +9,6 @@ import { SkeletonCard } from "./SkeletonCard";
 import { GenresSlide } from "./GenresSlide";
 import { MediaWithTrailer } from "./MediaWithTrailer";
 import { MediaCard } from "./MediaCard";
-import { Separator } from "./ui/separator";
 
 export const Trending: React.FC = () => {
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
@@ -41,9 +40,9 @@ export const Trending: React.FC = () => {
 
   return (
     <div className="text-white px-4 py-8  md:px-8 md:py-12">
-      <div className="flex items-end w-full mb-12">
-        <h1 className="text-2xl font-bold">Trending Movies</h1>
-        <div className="h-px flex-1 bg-primary/30"></div>
+      <div className="flex flex-row items-end w-full mb-12">
+        <h1 className="text-2xl md:text-3xl font-bold">Trending Movies</h1>
+        <div className="h-px flex-1 bg-primary/30 mb-1.5 ml-2"></div>
       </div>
 
       <GenresSlide

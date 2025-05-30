@@ -16,21 +16,21 @@ export const TvShowBanner: React.FC = () => {
   console.log(tvShow);
 
   return (
-    <div className="">
+    <div className="w-full max-w-sm  mx-auto">
       {tvShow && (
-        <Card className="p-0 gap-0 w-80 md:h-full rounded-none rounded-tr-3xl rounded-bl-3xl  overflow-hidden relative">
-          <CardContent className="p-0 h-full">
+        <Card className="p-0 gap-0 w-full h-[400px] sm:h-[450px] border-primary/30 rounded-none rounded-tr-3xl rounded-bl-3xl overflow-hidden relative">
+          <CardContent className="p-0 h-full relative">
             <img
               src={`https://image.tmdb.org/t/p/original/${tvShow.poster_path}`}
               alt={getMediaTitle(tvShow)}
-              className="inset-0 absolute w-full h-full object-cover z-0"
+              className="absolute inset-0 w-full h-full object-cover z-0"
             />
-            <div className="absolute inset-0 w-full h-full flex flex-col justify-center pt-16 px-8 md:p-8 bg-background/80 z-10">
-              <div className="text-white max-w-lg">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <div className="absolute inset-0 w-full h-full flex flex-col justify-center p-4 sm:p-6 md:p-8 bg-background/80 z-10">
+              <div className="text-white w-full">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-sora font-bold mb-3 sm:mb-4 leading-tight">
                   Our Top Rated TV Show
                 </h2>
-                <p className="text-base md:text-lg text-gray-200">
+                <p className="text-sm sm:text-base md:text-lg font-urbanist text-gray-200 leading-relaxed">
                   Experience the thrill of our highest-rated series, where epic
                   storytelling and unforgettable characters come together. Join
                   the journey that has captivated audiences around the world!

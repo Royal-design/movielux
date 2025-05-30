@@ -3,16 +3,19 @@ import { useGetUpcomingQuery } from "@/redux/features/movieApi";
 import { MediaWithTrailer } from "./MediaWithTrailer";
 import { HeroSlide } from "./HeroSlide";
 import useEmblaCarousel from "embla-carousel-react";
+import { SuspenseSpinner } from "./SuspenseSpinner";
 
 export const HeroSection = ({ onLoaded }: { onLoaded?: () => void }) => {
   const {
     data: upcomingMovies,
     isError,
-    isLoading
+    isLoading,
+    error
   } = useGetUpcomingQuery({
     mediaType: "movie",
     page: 1
   });
+
   const [activeIndex, setActiveIndex] = useState(0);
 
   const latestUpcomingMovies = useMemo(() => {
@@ -54,8 +57,23 @@ export const HeroSection = ({ onLoaded }: { onLoaded?: () => void }) => {
     }
   }, [upcomingMovies, isLoading, isError, onLoaded]);
 
-  if (isLoading) return <div>Loading hero section...</div>;
-  if (isError) return <div>Error fetching hero data.</div>;
+  // Check if it's a network error
+  const isNetworkError =
+    isError && error && "status" in error && error.status === "FETCH_ERROR";
+
+  if (isLoading)
+    return (
+      <div>
+        <SuspenseSpinner />
+      </div>
+    );
+  if (isNetworkError)
+    return (
+      <div className="text-primary-red text-xl flex justify-center items-center h-dvh  md:h-screen md:text-3xl">
+        <p>No network connection.</p>
+      </div>
+    );
+  if (isError) return <div className="">Error fetching hero data.</div>;
 
   return (
     <div className="hero-section relative w-full h-dvh md:h-screen text-white">

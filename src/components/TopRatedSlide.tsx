@@ -13,6 +13,7 @@ import {
 import type { MediaItemType } from "@/types/MediaType";
 import { getMediaReleaseDate, getMediaTitle } from "@/utilities/MediaUtilities";
 import { formatDate } from "@/utilities/formateDate";
+import { useGetGenresQuery } from "@/redux/features/movieApi";
 
 const TWEEN_FACTOR_BASE = 0.2;
 
@@ -22,9 +23,19 @@ type PropType = {
 };
 
 export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
+  const { data: genres } = useGetGenresQuery({ mediaType: "tv" });
+
+  const getGenreNames = (genresValues: number[]) => {
+    if (!genres?.genres) return "";
+    return genresValues
+      .map((id) => genres.genres.find((g) => g.id === id)?.name)
+      .filter((name): name is string => Boolean(name))
+      .join(", ");
+  };
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
     ...options,
-    align: "start" // Ensures the first slide starts flush left
+    align: "start"
   });
   const tweenFactor = useRef(0);
   const tweenNodes = useRef<HTMLElement[]>([]);
@@ -100,39 +111,39 @@ export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
   }, [emblaApi, tweenParallax]);
 
   return (
-    <div className="">
+    <div>
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex touch-pan-y">
           {slides.map((show, index) => (
             <div
               key={show.id}
-              className={`transform-gpu flex-[0_0_75%] min-w-0 ${
+              className={`transform-gpu min-w-0 ${
                 index !== 0 ? "pl-4" : ""
-              }`}
+              } flex-[0_0_100%] md:flex-[0_0_75%]`}
             >
               <div className="rounded-[1.8rem] overflow-hidden">
-                <div className="relative w-full flex justify-center embla__parallax__layer flex-col">
+                <div className="relative w-full embla__parallax__layer">
                   <img
-                    className="rounded-[1.8rem] w-full object-cover"
+                    className="rounded-[1.8rem] w-full h-[20rem] sm:h-[25rem]  object-cover"
                     src={`https://image.tmdb.org/t/p/w500${show.backdrop_path}`}
                     alt={getMediaTitle(show)}
                   />
-                  <div className="absolute inset-0 flex flex-col justify-end bg-background/80 text-white p-4 max-w-2xl">
-                    <div className="w-full md:max-w-2xl md:mt-16">
-                      <p className="text-primary text-lg md:text-xl font-rajdhani mb-4">
-                        ★{" "}
-                        <span className="text-white text-lg">
-                          {show.vote_average} /{" "}
-                        </span>
-                        <span className="text-sm text-white">
+                  <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/50 to-transparent text-white p-3 sm:p-4 md:p-6">
+                    <div className="w-full max-w-full flex flex-col space-y-2 sm:space-y-3 md:space-y-4">
+                      <p className="text-primary text-sm sm:text-lg md:text-xl font-rajdhani flex flex-wrap items-center gap-2">
+                        <span>★ {show.vote_average.toFixed(1)}</span>
+                        <span className="text-white text-xs sm:text-sm md:text-base">
                           {formatDate(getMediaReleaseDate(show))}
                         </span>
                       </p>
-                      <h2 className="text-xl md:text-3xl font-inter font-bold text-white mb-4">
+                      <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-inter font-bold text-white leading-tight">
                         {getMediaTitle(show)}
                       </h2>
-                      <p className="text-white text-base leading-relaxed mb-4 font-light">
+                      <p className="text-white text-xs sm:text-sm md:text-base leading-relaxed font-urbanist line-clamp-2 sm:line-clamp-3 md:line-clamp-4">
                         {show.overview}
+                      </p>
+                      <p className="text-xs sm:text-sm text-primary">
+                        {getGenreNames(show.genre_ids)}
                       </p>
                     </div>
                   </div>
@@ -147,12 +158,12 @@ export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
         <PrevButton
           onClick={onPrevButtonClick}
           disabled={prevBtnDisabled}
-          className="bg-white inline-flex cursor-pointer w-6 h-6 p-1 rounded-full text-current items-center justify-center"
+          className="bg-primary/20 inline-flex cursor-pointer w-5 h-5 sm:w-7 sm:h-7 p-2 rounded-full text-white/60 items-center justify-center hover:bg-primary/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         />
         <NextButton
           onClick={onNextButtonClick}
           disabled={nextBtnDisabled}
-          className="bg-white inline-flex cursor-pointer w-6 h-6 p-1 rounded-full text-current items-center justify-center"
+          className="bg-primary/20 inline-flex cursor-pointer w-5 h-5 sm:w-7 sm:h-7 p-2 rounded-full text-white/60 items-center justify-center hover:bg-primary/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         />
       </div>
     </div>

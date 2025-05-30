@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Rajdhani:wght@300;400;500;600;700&family=Sora:wght@100..800&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
-
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -8,8 +7,8 @@
 
 @theme inline {
   --font-inter: "Inter", sans-serif;
-  --font-sora: "Sora", serif;
-  --font-urbanist: "Urbanist", monospace;
+  --font-sora: "Sora", sans-serif;
+  --font-urbanist: "Urbanist", sans-serif;
   --font-titillium: "Titillium Web", sans-serif;
   --font-rajdhani: "Rajdhani", sans-serif;
 
@@ -38,26 +37,26 @@
     @apply border-white;
   }
   body {
-    @apply bg-background leading-[150%];
+    @apply bg-background font-inter text-white leading-[150%];
   }
 }
 
 /* suspense spinner */
 .loader {
-  border: 4px solid rgba(0, 0, 0, 0.1);
+  border: 4px solid rgba(235, 235, 235, 0.683);
   border-left-color: transparent;
   border-radius: 50%;
 }
 
 .loader {
-  border: 4px solid rgba(0, 0, 0, 0.1);
+  border: 4px solid rgba(225, 225, 225, 0.838);
   border-left-color: transparent;
   width: 36px;
   height: 36px;
 }
 
 .loader {
-  border: 4px solid rgba(0, 0, 0, 0.1);
+  border: 4px solid rgba(181, 179, 179, 0.749);
   border-left-color: transparent;
   width: 36px;
   height: 36px;

@@ -14,45 +14,65 @@ export const MediaCard = ({ media, trailerKey }: MediaCardProps) => {
 
   return (
     <Card
-      className="relative w-full h-full md:h-82 border-none gap-0 px-0 py-0 rounded-none overflow-hidden shadow hover:shadow-xl transition-shadow duration-300 bg-background"
+      className="relative w-full h-full min-h-[320px] sm:min-h-[360px] md:min-h-[400px] border-none gap-0 px-0 py-0 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-background group"
       onMouseEnter={() => setHovered(false)}
       onMouseLeave={() => setHovered(false)}
     >
-      <CardContent className="px-0 py-0">
+      <CardContent className="px-0 py-0 h-full flex flex-col">
         {hovered && trailerKey ? (
-          <iframe
-            width="100%"
-            height="100%"
-            src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&mute=1&controls=0&loop=1&playlist=${trailerKey}`}
-            title={getMediaTitle(media)}
-            allow="autoplay; encrypted-media"
-            allowFullScreen
-          ></iframe>
+          <div className="flex-1 min-h-0">
+            <iframe
+              width="100%"
+              height="100%"
+              src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&mute=1&controls=0&loop=1&playlist=${trailerKey}`}
+              title={getMediaTitle(media)}
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              className="w-full h-full"
+            ></iframe>
+          </div>
         ) : (
-          <div className="h-full">
-            <img
-              src={`https://image.tmdb.org/t/p/w500${media.poster_path}`}
-              alt={getMediaTitle(media)}
-              className="w-full h-65 object-cover"
-            />
-            <div className="py-2 h-full">
-              <p className="text-white font-bold text-sm">
+          <>
+            {/* Image Container */}
+            <div className="flex-1 relative overflow-hidden">
+              <img
+                src={`https://image.tmdb.org/t/p/w500${media.poster_path}`}
+                alt={getMediaTitle(media)}
+                className="w-full md:h-[300px] object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              {/* Hover overlay for cards without trailers */}
+              {!trailerKey && (
+                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              )}
+            </div>
+
+            {/* Content Section */}
+            <div className="p-3 sm:p-4 bg-background">
+              <h3 className="text-white font-bold text-sm sm:text-base mb-2 line-clamp-2 leading-tight">
                 {getMediaTitle(media)}
-              </p>
-              <article className="flex justify-between items-center">
+              </h3>
+
+              <div className="flex justify-between items-center">
+                {/* Vote Count with Heart */}
                 <div className="flex items-center gap-1">
-                  <IoIosHeart className="text-primary-red size-3" />
-                  <p className="text-primary text-sm">{media.vote_count}</p>
+                  <IoIosHeart className="text-red-500 w-3 h-3 sm:w-4 sm:h-4" />
+                  <span className="text-primary text-xs sm:text-sm font-medium">
+                    {media.vote_count.toLocaleString()}
+                  </span>
                 </div>
 
-                <div>
-                  <p className="text-primary text-sm font-rajdhani">
-                    ★ <span className="text-white">{media.vote_average}</span>
-                  </p>
+                {/* Rating */}
+                <div className="flex items-center">
+                  <span className="text-primary text-xs sm:text-sm font-rajdhani">
+                    ★
+                  </span>
+                  <span className="text-white text-xs sm:text-sm font-medium ml-1">
+                    {media.vote_average.toFixed(1)}
+                  </span>
                 </div>
-              </article>
+              </div>
             </div>
-          </div>
+          </>
         )}
       </CardContent>
     </Card>

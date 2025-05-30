@@ -19,6 +19,7 @@ export const GenresSlide: React.FC<GenreButtonProps> = ({
     loop: false,
     skipSnaps: false,
     align: "start",
+    dragFree: true,
     containScroll: "trimSnaps"
   });
 

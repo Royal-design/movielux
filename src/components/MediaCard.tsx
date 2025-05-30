@@ -15,7 +15,7 @@ export const MediaCard = ({ media, trailerKey }: MediaCardProps) => {
   return (
     <Card
       className="relative w-full h-full min-h-[320px] sm:min-h-[360px] md:min-h-[400px] border-none gap-0 px-0 py-0 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-background group"
-      onMouseEnter={() => setHovered(false)}
+      onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <CardContent className="px-0 py-0 h-full flex flex-col">

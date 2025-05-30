@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Rajdhani:wght@300;400;500;600;700&family=Sora:wght@100..800&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -11,19 +11,26 @@
   --font-sora: "Sora", serif;
   --font-urbanist: "Urbanist", monospace;
   --font-titillium: "Titillium Web", sans-serif;
+  --font-rajdhani: "Rajdhani", sans-serif;
 
   --color-navbar-background: var(--navbar-background);
   --color-background: var(--background);
+  --color-primary-red: var(--primary-red);
+  --color-primary: var(--primary);
 }
 
 :root {
   --background: #0d0105;
   --navbar-background: #120109;
+  --primary-red: #f71e1e;
+  --primary: #ff590d;
 }
 
 .dark {
   --background: #120109;
   --navbar-background: #120109;
+  --primary-red: #f71e1e;
+  --primary: #ff590d;
 }
 
 @layer base {

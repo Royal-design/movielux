@@ -1,12 +1,16 @@
-import type { Movie } from "@/types/MovieType";
 import React, { useState } from "react";
+import { Button } from "./ui/button";
+import { RiPlayLargeFill } from "react-icons/ri";
+import { formatDate } from "@/utilities/formateDate";
+import type { MediaItemType } from "@/types/MediaType";
+import { getMediaReleaseDate, getMediaTitle } from "@/utilities/MediaUtilities";
 
 interface HeroSlideProps {
-  movie: Movie;
-  trailerKey?: string; // <-- pass the trailerKey if you have it
+  media: MediaItemType;
+  trailerKey?: string;
 }
 
-export const HeroSlide: React.FC<HeroSlideProps> = ({ movie, trailerKey }) => {
+export const HeroSlide: React.FC<HeroSlideProps> = ({ media, trailerKey }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const handlePlayClick = () => {
@@ -22,29 +26,41 @@ export const HeroSlide: React.FC<HeroSlideProps> = ({ movie, trailerKey }) => {
       {/* Background Image */}
       <img
         src={`https://image.tmdb.org/t/p/original/${
-          movie.backdrop_path || movie.poster_path
+          media.backdrop_path || media.poster_path
         }`}
-        alt={movie.title}
+        alt={getMediaTitle(media)}
         className="absolute inset-0 w-full h-full object-cover z-0"
       />
 
       {/* Overlay & Buttons */}
-      <div className="absolute inset-0 w-full h-full flex flex-col justify-end p-8 bg-background/40 z-10">
-        <div className="max-w-2xl">
-          <h2 className="text-4xl font-bold text-white mb-4">{movie.title}</h2>
-          <p className="text-white text-lg leading-relaxed mb-6 font-light">
-            {movie.overview}
+      <div className="absolute inset-0 w-full h-full flex flex-col justify-center pt-16 px-8 md:p-8 bg-background/70 z-10">
+        <div className="w-full md:max-w-2xl md:mt-16">
+          <p className="text-primary text-lg  md:text-xl font-rajdhani mb-4">
+            ★{" "}
+            <span className="text-white text-lg">{media.vote_average} / </span>
+            <span className="text-sm text-white">
+              {formatDate(getMediaReleaseDate(media))}
+            </span>
           </p>
-          <div className="flex gap-4">
-            <button
+          <h2 className="text-xl md:text-3xl font-inter font-bold text-white mb-9">
+            {getMediaTitle(media)}
+          </h2>
+          <p className="text-white md:text-lg leading-relaxed mb-12 font-light">
+            {media.overview}
+          </p>
+          <div className="flex gap-4 mb-4">
+            <Button
               onClick={handlePlayClick}
-              className="bg-white text-black px-6 py-2 rounded font-semibold hover:bg-gray-200 transition-colors"
+              className="cursor-pointer bg-primary-red w-24 rounded-2xl hover:bg-primary-red/90 hover:scale-105 duration-200 transition-transform"
             >
-              Play
-            </button>
-            <button className="bg-gray-600 bg-opacity-70 text-white px-6 py-2 rounded font-semibold hover:bg-opacity-90 transition-colors">
+              <RiPlayLargeFill className="text-white" />
+            </Button>
+            <Button
+              variant="ghost"
+              className="border border-primary hover:border-primary/80 rounded-2xl text-white px-6 py-2  font-semibold  transition-colors"
+            >
               More Info
-            </button>
+            </Button>
           </div>
         </div>
       </div>

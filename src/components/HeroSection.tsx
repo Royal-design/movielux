@@ -3,7 +3,8 @@ import { useGetUpcomingQuery } from "@/redux/features/movieApi";
 import { MediaWithTrailer } from "./MediaWithTrailer";
 import { HeroSlide } from "./HeroSlide";
 import useEmblaCarousel from "embla-carousel-react";
-import { SuspenseSpinner } from "./SuspenseSpinner";
+import { Spinner } from "./Spinner";
+import { getRandomSubset } from "@/utilities/gerRandomSubsets";
 
 export const HeroSection = ({ onLoaded }: { onLoaded?: () => void }) => {
   const {
@@ -19,14 +20,7 @@ export const HeroSection = ({ onLoaded }: { onLoaded?: () => void }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const latestUpcomingMovies = useMemo(() => {
-    if (!upcomingMovies?.results || upcomingMovies.results.length === 0)
-      return [];
-    const moviesCopy = [...upcomingMovies.results];
-    for (let i = moviesCopy.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [moviesCopy[i], moviesCopy[j]] = [moviesCopy[j], moviesCopy[i]];
-    }
-    return moviesCopy.slice(0, 3);
+    return getRandomSubset(upcomingMovies?.results, 3);
   }, [upcomingMovies?.results]);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -64,7 +58,7 @@ export const HeroSection = ({ onLoaded }: { onLoaded?: () => void }) => {
   if (isLoading)
     return (
       <div>
-        <SuspenseSpinner />
+        <Spinner />
       </div>
     );
   if (isNetworkError)

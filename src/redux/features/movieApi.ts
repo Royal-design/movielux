@@ -1,5 +1,6 @@
 import type { GenreType } from "@/types/GenreType";
 import type { MediaItemType } from "@/types/MediaType";
+import type { PersonType } from "@/types/PersonType";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const token = import.meta.env.VITE_TMDB_API_TOKEN;
@@ -25,6 +26,12 @@ export interface MediaVideoType {
     published_at: string;
     id: string;
   }[];
+}
+export interface PersonResponseType {
+  page: number;
+  results: PersonType[];
+  total_pages: number;
+  total_results: number;
 }
 
 export interface GenreResponseType {
@@ -85,6 +92,9 @@ export const movieApi = createApi({
     getGenres: builder.query<GenreResponseType, { mediaType: string }>({
       query: ({ mediaType }) => `genre/${mediaType}/list`
     }),
+    getPopularPeople: builder.query<PersonResponseType, { page?: number }>({
+      query: ({ page = 1 }) => `person/popular?page=${page}`
+    }),
     getTrending: builder.query<
       MediaResponseType,
       { mediaType: string; timeWindow: string; page?: number }
@@ -129,5 +139,6 @@ export const {
   useGetVideosQuery,
   useGetGenresQuery,
   useGetDiscoverQuery,
-  useGetTrendingQuery
+  useGetTrendingQuery,
+  useGetPopularPeopleQuery
 } = movieApi;

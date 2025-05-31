@@ -128,7 +128,7 @@ export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
                     src={`https://image.tmdb.org/t/p/w500${show.backdrop_path}`}
                     alt={getMediaTitle(show)}
                   />
-                  <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/50 to-transparent text-white p-3 sm:p-4 md:p-6">
+                  <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/80 to-transparent text-white p-3 sm:p-4 md:p-6">
                     <div className="w-full max-w-full flex flex-col space-y-2 sm:space-y-3 md:space-y-4">
                       <p className="text-primary text-sm sm:text-lg md:text-xl font-rajdhani flex flex-wrap items-center gap-2">
                         <span>★ {show.vote_average.toFixed(1)}</span>
@@ -136,13 +136,13 @@ export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
                           {formatDate(getMediaReleaseDate(show))}
                         </span>
                       </p>
-                      <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-inter font-bold text-white leading-tight">
+                      <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-playfair font-bold text-white leading-tight">
                         {getMediaTitle(show)}
                       </h2>
-                      <p className="text-white text-xs sm:text-sm md:text-base leading-relaxed font-urbanist line-clamp-2 sm:line-clamp-3 md:line-clamp-4">
+                      <p className="text-white text-xs sm:text-sm md:text-base font-light leading-relaxed font-urbanist line-clamp-2 sm:line-clamp-3 md:line-clamp-4">
                         {show.overview}
                       </p>
-                      <p className="text-xs sm:text-sm text-primary">
+                      <p className="text-xs font-rajdhani sm:text-sm text-primary">
                         {getGenreNames(show.genre_ids)}
                       </p>
                     </div>

@@ -27,10 +27,10 @@ export const TvShowBanner: React.FC = () => {
             />
             <div className="absolute inset-0 w-full h-full flex flex-col justify-center p-4 sm:p-6 md:p-8 bg-background/80 z-10">
               <div className="text-white w-full">
-                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-sora font-bold mb-3 sm:mb-4 leading-tight">
+                <h2 className="text-xl sm:text-2xl  md:text-3xl lg:text-4xl font-cinzel font-bold mb-3 sm:mb-4 leading-tight">
                   Our Top Rated TV Show
                 </h2>
-                <p className="text-sm sm:text-base md:text-lg font-urbanist text-gray-200 leading-relaxed">
+                <p className="text-sm sm:text-base md:text-lg font-light text-gray-200 leading-relaxed">
                   Experience the thrill of our highest-rated series, where epic
                   storytelling and unforgettable characters come together. Join
                   the journey that has captivated audiences around the world!

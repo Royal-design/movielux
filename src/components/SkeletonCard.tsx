@@ -1,7 +1,11 @@
+import { Skeleton } from "./ui/skeleton";
+
 export const SkeletonCard: React.FC = () => (
-  <div className="border rounded shadow p-2 flex flex-col items-center animate-pulse">
-    <div className="bg-red-300-700 rounded mb-2 w-full h-64"></div>
-    <div className="bg-gray-700 rounded w-3/4 h-4 mb-1"></div>
-    <div className="bg-gray-700 rounded w-1/2 h-3"></div>
+  <div className="flex flex-col space-y-3">
+    <Skeleton className="min-h-[300px] sm:min-h-[340px] rounded-none md:min-h-[340px] rounded-t-lg bg-primary/5" />
+    <div className="space-y-2">
+      <Skeleton className="h-2 w-[200px] bg-primary/5" />
+      <Skeleton className="h-2 w-[250px] bg-primary/5" />
+    </div>
   </div>
 );

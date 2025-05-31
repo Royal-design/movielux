@@ -1,20 +1,14 @@
-import React, { useState, useEffect, useCallback } from "react";
+import type { MediaItemType } from "@/types/MediaType";
 import useEmblaCarousel from "embla-carousel-react";
-import { GenreButton } from "./GenreButton";
+import React, { useCallback, useEffect, useState } from "react";
+import { MediaWithTrailer } from "./MediaWithTrailer";
+import { MediaCard } from "./MediaCard";
 
-interface GenreButtonProps {
-  genresData: {
-    genres: { id: number; name: string }[];
-  };
-  selectedGenres: number[];
-  toggleGenre: (genreId: number) => void;
+interface MoviesProps {
+  movies: MediaItemType[];
 }
 
-export const GenresSlide: React.FC<GenreButtonProps> = ({
-  genresData,
-  selectedGenres,
-  toggleGenre
-}) => {
+export const UpcomingMoviesSlides: React.FC<MoviesProps> = ({ movies }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: false,
     skipSnaps: false,
@@ -22,8 +16,6 @@ export const GenresSlide: React.FC<GenreButtonProps> = ({
     dragFree: true,
     containScroll: "trimSnaps"
   });
-
-  // Initialize both as false, let Embla determine the correct state
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
 
@@ -45,18 +37,15 @@ export const GenresSlide: React.FC<GenreButtonProps> = ({
   useEffect(() => {
     if (!emblaApi) return;
 
-    // Set initial state immediately when Embla is ready
     const setInitialState = () => {
       setPrevBtnEnabled(emblaApi.canScrollPrev());
       setNextBtnEnabled(emblaApi.canScrollNext());
     };
 
-    // Set initial state
     setInitialState();
 
-    // Listen for changes
     emblaApi.on("select", onSelect);
-    emblaApi.on("reInit", setInitialState); // Also listen for reInit
+    emblaApi.on("reInit", setInitialState);
 
     return () => {
       emblaApi.off("select", onSelect);
@@ -64,37 +53,35 @@ export const GenresSlide: React.FC<GenreButtonProps> = ({
     };
   }, [emblaApi, onSelect]);
 
-  // Alternative: Set initial state based on genres length
   useEffect(() => {
-    if (genresData?.genres && genresData.genres.length > 0) {
-      // If we have genres and no emblaApi yet, assume next should be enabled
+    if (movies && movies.length > 0) {
       if (!emblaApi) {
         setNextBtnEnabled(true);
       }
     }
-  }, [genresData, emblaApi]);
+  }, [movies, emblaApi]);
 
   return (
-    <div className="relative w-full mb-8">
+    <div className="relative w-full mb-4 sm:mb-8">
       {/* Navigation buttons positioned absolutely at extreme ends */}
       <button
         onClick={scrollPrev}
         disabled={!prevBtnEnabled}
         className={`
-          absolute left-0 top-1/2 -translate-y-1/2 z-10
-          w-8 h-8 rounded-full bg-black/50 text-white
-          flex items-center justify-center
-          transition-all duration-200
-          ${
-            prevBtnEnabled
-              ? "opacity-100 hover:bg-black/70 cursor-pointer"
-              : "opacity-30 cursor-not-allowed"
-          }
-        `}
+            absolute left-0 top-1/2 -translate-y-1/2 z-10
+            w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-black/50 text-white
+            flex items-center justify-center
+            transition-all duration-200
+            ${
+              prevBtnEnabled
+                ? "opacity-100 hover:bg-black/70 cursor-pointer"
+                : "opacity-30 cursor-not-allowed"
+            }
+          `}
         aria-label="Previous genres"
       >
         <svg
-          className="w-4 h-4"
+          className="w-3 h-3 sm:w-4 sm:h-4"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -112,20 +99,20 @@ export const GenresSlide: React.FC<GenreButtonProps> = ({
         onClick={scrollNext}
         disabled={!nextBtnEnabled}
         className={`
-          absolute right-0 top-1/2 -translate-y-1/2 z-10
-          w-8 h-8 rounded-full bg-black/50 text-white
-          flex items-center justify-center
-          transition-all duration-200
-          ${
-            nextBtnEnabled
-              ? "opacity-100 hover:bg-black/70 cursor-pointer"
-              : "opacity-30 cursor-not-allowed"
-          }
-        `}
+            absolute right-0 top-1/2 -translate-y-1/2 z-10
+            w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-black/50 text-white
+            flex items-center justify-center
+            transition-all duration-200
+            ${
+              nextBtnEnabled
+                ? "opacity-100 hover:bg-black/70 cursor-pointer"
+                : "opacity-30 cursor-not-allowed"
+            }
+          `}
         aria-label="Next genres"
       >
         <svg
-          className="w-4 h-4"
+          className="w-3 h-3 sm:w-4 sm:h-4"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -140,17 +127,18 @@ export const GenresSlide: React.FC<GenreButtonProps> = ({
       </button>
 
       {/* Embla viewport with padding to avoid navigation overlap */}
-      <div className="overflow-hidden h-full mx-10 pr-1" ref={emblaRef}>
-        {/* Embla container with uniform gaps */}
-        <div className="flex space-x-3 h-full ">
-          {genresData?.genres.map((genre) => (
-            <div key={genre.id} className="flex-shrink-0">
-              <GenreButton
-                genreId={genre.id}
-                genreName={genre.name}
-                selectedGenres={selectedGenres}
-                toggleGenre={toggleGenre}
-              />
+      <div className="overflow-hidden pr-1" ref={emblaRef}>
+        {/* Embla container with responsive gaps and heights */}
+        <div className="flex space-x-2 sm:space-x-4">
+          {movies.map((movie) => (
+            <div key={movie.id} className="flex-shrink-0 w-42 sm:w-52 md:w-65">
+              <div className="h-full">
+                <MediaWithTrailer media={movie}>
+                  {(movie, trailerKey) => (
+                    <MediaCard media={movie} trailerKey={trailerKey} />
+                  )}
+                </MediaWithTrailer>
+              </div>
             </div>
           ))}
         </div>

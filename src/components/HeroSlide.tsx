@@ -25,7 +25,7 @@ export const HeroSlide: React.FC<HeroSlideProps> = ({ media, trailerKey }) => {
     setIsPlaying(false);
   };
 
-  // Handle ESC key to close modal
+  
   React.useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -35,7 +35,7 @@ export const HeroSlide: React.FC<HeroSlideProps> = ({ media, trailerKey }) => {
 
     if (isPlaying) {
       document.addEventListener("keydown", handleEsc);
-      document.body.style.overflow = "hidden"; // Prevent background scroll
+      document.body.style.overflow = "hidden";
     }
 
     return () => {
@@ -74,12 +74,12 @@ export const HeroSlide: React.FC<HeroSlideProps> = ({ media, trailerKey }) => {
           </div>
 
           {/* Title */}
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight max-w-4xl">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-cinzel font-bold text-white leading-tight max-w-4xl">
             {getMediaTitle(media)}
           </h1>
 
           {/* Overview */}
-          <p className="text-white/90 font-sora text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl line-clamp-3 sm:line-clamp-4 ">
+          <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl line-clamp-3 sm:line-clamp-4 ">
             {media.overview}
           </p>
 

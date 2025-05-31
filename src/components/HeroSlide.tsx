@@ -25,7 +25,6 @@ export const HeroSlide: React.FC<HeroSlideProps> = ({ media, trailerKey }) => {
     setIsPlaying(false);
   };
 
-  
   React.useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -64,7 +63,7 @@ export const HeroSlide: React.FC<HeroSlideProps> = ({ media, trailerKey }) => {
         <div className="w-full max-w-4xl space-y-4 sm:space-y-6">
           {/* Rating and Date */}
           <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base md:text-lg">
-            <span className="text-primary font-rajdhani flex items-center">
+            <span className="text-amber-300 font-rajdhani flex items-center">
               ★ {media.vote_average.toFixed(1)}
             </span>
             <span className="text-white/80">•</span>

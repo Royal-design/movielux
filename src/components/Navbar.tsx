@@ -1,9 +1,11 @@
 import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useAppSelector } from "@/redux/store";
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const isVisible = useAppSelector((state) => state.navbar.isVisible);
 
   const links = [
     { name: "Home", path: "/" },
@@ -27,7 +29,9 @@ export const Navbar = () => {
 
   return (
     <div
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 font-rajdhani w-full ${
+      className={`fixed top-0 left-0 right-0 z-30 transition-all duration-500 font-rajdhani w-full ${
+        !isVisible ? "opacity-0 pointer-events-none" : ""
+      } ${
         isScrolled
           ? "bg-black/90 backdrop-blur-md py-2 shadow-lg"
           : "bg-transparent py-4"

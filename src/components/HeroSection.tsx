@@ -1,6 +1,5 @@
 import { useMemo, useEffect, useState, useCallback } from "react";
 import { useGetUpcomingQuery } from "@/redux/features/movieApi";
-import { MediaWithTrailer } from "./MediaWithTrailer";
 import { HeroSlide } from "./HeroSlide";
 import useEmblaCarousel from "embla-carousel-react";
 import { Spinner } from "./Spinner";
@@ -76,11 +75,7 @@ export const HeroSection = ({ onLoaded }: { onLoaded?: () => void }) => {
         <div className="flex h-dvh  md:h-screen">
           {latestUpcomingMovies.map((movie) => (
             <div key={movie.id} className="flex-none w-full h-full relative">
-              <MediaWithTrailer media={movie}>
-                {(movie, trailerKey) => (
-                  <HeroSlide media={movie} trailerKey={trailerKey} />
-                )}
-              </MediaWithTrailer>
+              <HeroSlide media={movie} />
             </div>
           ))}
         </div>

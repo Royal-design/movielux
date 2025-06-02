@@ -1,11 +1,14 @@
 import { Navbar } from "@/components/Navbar";
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { matchPath, Outlet, useLocation } from "react-router-dom";
 
 export const RootLayout: React.FC = () => {
+  const location = useLocation();
+  const isMovieDetailPage = matchPath("/movies/movie/:id", location.pathname);
   return (
     <div>
-      <Navbar />
+      {!isMovieDetailPage && <Navbar />}
+
       <main className="">
         <Outlet />
       </main>

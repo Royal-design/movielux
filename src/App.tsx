@@ -4,6 +4,7 @@ import { Error } from "./Pages/Error";
 
 import { SuspenseSpinner } from "./components/SuspenseSpinner";
 import { lazy, Suspense } from "react";
+import { MovieDetail } from "./Pages/MovieDetail";
 
 // lazy loading the pages
 const Home = lazy(() =>
@@ -47,7 +48,17 @@ function App() {
         },
         {
           path: "/movies",
-          element: <Movies />
+
+          children: [
+            {
+              index: true,
+              element: <Movies />
+            },
+            {
+              path: "movie/:id",
+              element: <MovieDetail />
+            }
+          ]
         },
         {
           path: "/series",

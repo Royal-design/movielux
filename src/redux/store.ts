@@ -5,9 +5,11 @@ import {
   useSelector
 } from "react-redux";
 import { movieApi } from "./features/movieApi";
+import { navBar } from "./features/navBar";
 
 export const store = configureStore({
   reducer: {
+    navbar: navBar.reducer,
     [movieApi.reducerPath]: movieApi.reducer
   },
   middleware: (getDefaultMiddleware) =>

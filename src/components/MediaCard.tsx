@@ -4,24 +4,44 @@ import { useState } from "react";
 import { Card, CardContent } from "./ui/card";
 import { IoIosHeart } from "react-icons/io";
 import { IoPlaySharp, IoInformationCircle } from "react-icons/io5";
+import { useTrailer } from "./useTrailer";
 
 type MediaCardProps = {
   media: MediaItemType;
-  trailerKey?: string;
 };
 
-export const MediaCard = ({ media, trailerKey }: MediaCardProps) => {
+export const MediaCard = ({ media }: MediaCardProps) => {
   const [hovered, setHovered] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  const trailerKey = useTrailer("movie", media.id)?.key ?? "";
+
+  const handlePlayTrailer = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (trailerKey) {
+      setIsPlaying(true);
+    }
+  };
+
+  const handleStopTrailer = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsPlaying(false);
+  };
 
   return (
     <Card
       className="relative w-full h-full min-h-[320px] sm:min-h-[360px] md:min-h-[400px] border-none gap-0 px-0 py-0 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-red-500/10 transition-all duration-500 bg-background group cursor-pointer"
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseLeave={() => {
+        setHovered(false);
+        if (isPlaying) {
+          setIsPlaying(false);
+        }
+      }}
     >
       <CardContent className="px-0 py-0 h-full flex flex-col relative">
-        {hovered && trailerKey ? (
+        {(hovered || isPlaying) && trailerKey ? (
           <div className="flex-1 min-h-0 relative">
             <iframe
               width="100%"
@@ -40,7 +60,12 @@ export const MediaCard = ({ media, trailerKey }: MediaCardProps) => {
                   <span className="text-xs bg-red-600 px-2 py-1 rounded-full font-medium">
                     TRAILER
                   </span>
-                  <IoInformationCircle className="w-5 h-5 opacity-70 hover:opacity-100 transition-opacity" />
+                  <button
+                    onClick={handleStopTrailer}
+                    className="hover:scale-110 transition-transform duration-200"
+                  >
+                    <IoInformationCircle className="w-5 h-5 opacity-70 hover:opacity-100 transition-opacity" />
+                  </button>
                 </div>
               </div>
             </div>
@@ -72,11 +97,20 @@ export const MediaCard = ({ media, trailerKey }: MediaCardProps) => {
               {/* Hover overlay with play button */}
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
                 {trailerKey ? (
-                  <div className="bg-red-600 hover:bg-red-500 rounded-full p-4 transform scale-0 group-hover:scale-100 transition-transform duration-300 shadow-2xl">
+                  <button
+                    onClick={handlePlayTrailer}
+                    className="bg-red-600 hover:bg-red-500 rounded-full p-4 transform scale-0 group-hover:scale-100 transition-transform duration-300 shadow-2xl"
+                  >
                     <IoPlaySharp className="text-white w-6 h-6 ml-1" />
-                  </div>
+                  </button>
                 ) : (
-                  <div className="bg-white/20 backdrop-blur-sm rounded-full p-4 transform scale-0 group-hover:scale-100 transition-transform duration-300">
+                  <div
+                    className="bg-white/20 backdrop-blur-sm rounded-full p-4 transform scale-0 group-hover:scale-100 transition-transform duration-300"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsPlaying(true);
+                    }}
+                  >
                     <IoInformationCircle className="text-white w-6 h-6" />
                   </div>
                 )}
@@ -129,7 +163,7 @@ export const MediaCard = ({ media, trailerKey }: MediaCardProps) => {
                 </div>
 
                 {/* Progress bar for rating */}
-                <div className="mt-3 h-1 bg-gray-700 rounded-full overflow-hidden">
+                <div className="mt-3 h-1 bg-gray-700/60 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-red-500 to-yellow-400 rounded-full transition-all duration-1000 delay-300"
                     style={{

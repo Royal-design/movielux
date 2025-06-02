@@ -1,5 +1,6 @@
 import type { GenreType } from "@/types/GenreType";
 import type { MediaItemType } from "@/types/MediaType";
+import type { MovieDetailType } from "@/types/MovieDetailType";
 import type { PersonType } from "@/types/PersonType";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -89,12 +90,16 @@ export const movieApi = createApi({
         query: ({ mediaType, id }) => `${mediaType}/${id}/videos`
       }
     ),
+    getMovieDetail: builder.query<MovieDetailType, { id: string }>({
+      query: ({ id }) => `movie/${id}`
+    }),
     getGenres: builder.query<GenreResponseType, { mediaType: string }>({
       query: ({ mediaType }) => `genre/${mediaType}/list`
     }),
     getPopularPeople: builder.query<PersonResponseType, { page?: number }>({
       query: ({ page = 1 }) => `person/popular?page=${page}`
     }),
+
     getTrending: builder.query<
       MediaResponseType,
       { mediaType: string; timeWindow: string; page?: number }
@@ -140,5 +145,6 @@ export const {
   useGetGenresQuery,
   useGetDiscoverQuery,
   useGetTrendingQuery,
-  useGetPopularPeopleQuery
+  useGetPopularPeopleQuery,
+  useGetMovieDetailQuery
 } = movieApi;

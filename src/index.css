@@ -16,20 +16,23 @@
   --color-background: var(--background);
   --color-primary-red: var(--primary-red);
   --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
 }
 
 :root {
   --background: #0d0105;
   --navbar-background: #120109;
   --primary-red: #f71e1e;
-  --primary: #ff590d;
+  --primary: #ebab09;
+  --secondary: #ff590d;
 }
 
 .dark {
   --background: #120109;
   --navbar-background: #120109;
   --primary-red: #f71e1e;
-  --primary: #ff590d;
+  --secondary: #ff590d;
+  --primary: #ebab09;
 }
 
 @layer base {

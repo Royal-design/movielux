@@ -7,9 +7,9 @@ import React, { useMemo, useState } from "react";
 import { SkeletonCard } from "./SkeletonCard";
 
 import { GenresSlide } from "./GenresSlide";
-import { MediaWithTrailer } from "./MediaWithTrailer";
 import { MediaCard } from "./MediaCard";
 import { getRandomSubset } from "@/utilities/gerRandomSubsets";
+import { NavLink } from "react-router-dom";
 
 export const Trending: React.FC = () => {
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
@@ -63,11 +63,9 @@ export const Trending: React.FC = () => {
         ) : trendingMovies && trendingMovies.length > 0 ? (
           trendingMovies.map((media: MediaItemType) => (
             <div key={media.id} className="w-full h-full relative">
-              <MediaWithTrailer media={media}>
-                {(movie, trailerKey) => (
-                  <MediaCard media={movie} trailerKey={trailerKey} />
-                )}
-              </MediaWithTrailer>
+              <NavLink to={`/movies/movie/${media.id}`}>
+                <MediaCard media={media} />
+              </NavLink>
             </div>
           ))
         ) : (

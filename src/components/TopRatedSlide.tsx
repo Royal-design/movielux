@@ -14,6 +14,7 @@ import type { MediaItemType } from "@/types/MediaType";
 import { getMediaReleaseDate, getMediaTitle } from "@/utilities/MediaUtilities";
 import { formatDate } from "@/utilities/formateDate";
 import { useGetGenresQuery } from "@/redux/features/movieApi";
+import { getGenreNames } from "@/utilities/getGenreNames";
 
 const TWEEN_FACTOR_BASE = 0.2;
 
@@ -24,14 +25,6 @@ type PropType = {
 
 export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
   const { data: genres } = useGetGenresQuery({ mediaType: "tv" });
-
-  const getGenreNames = (genresValues: number[]) => {
-    if (!genres?.genres) return "";
-    return genresValues
-      .map((id) => genres.genres.find((g) => g.id === id)?.name)
-      .filter((name): name is string => Boolean(name))
-      .join(", ");
-  };
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     ...options,
@@ -143,7 +136,7 @@ export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
                         {show.overview}
                       </p>
                       <p className="text-xs font-rajdhani sm:text-sm text-primary">
-                        {getGenreNames(show.genre_ids)}
+                        {genres ? getGenreNames(show.genre_ids, genres) : ""}
                       </p>
                     </div>
                   </div>

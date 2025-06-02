@@ -1,8 +1,8 @@
 import type { MediaItemType } from "@/types/MediaType";
 import useEmblaCarousel from "embla-carousel-react";
 import React, { useCallback, useEffect, useState } from "react";
-import { MediaWithTrailer } from "./MediaWithTrailer";
 import { MediaCard } from "./MediaCard";
+import { NavLink } from "react-router-dom";
 
 interface MoviesProps {
   movies: MediaItemType[];
@@ -133,11 +133,9 @@ export const UpcomingMoviesSlides: React.FC<MoviesProps> = ({ movies }) => {
           {movies.map((movie) => (
             <div key={movie.id} className="flex-shrink-0 w-42 sm:w-52 md:w-65">
               <div className="h-full">
-                <MediaWithTrailer media={movie}>
-                  {(movie, trailerKey) => (
-                    <MediaCard media={movie} trailerKey={trailerKey} />
-                  )}
-                </MediaWithTrailer>
+                <NavLink to={`/movies/movie/${movie.id}`}>
+                  <MediaCard media={movie} />
+                </NavLink>
               </div>
             </div>
           ))}

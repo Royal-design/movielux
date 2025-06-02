@@ -1,4 +1,9 @@
+import { Footer } from "@/components/Footer";
 import { MoviesHero } from "@/components/MoviesHero";
+import { NowPlayingMovies } from "@/components/NowPlayingMovies";
+import { ScrollToTop } from "@/components/ScrollToTop";
+import { Spinner } from "@/components/Spinner";
+import { TrendingMovies } from "@/components/TrendingMovies";
 import { useGetNowPlayingQuery } from "@/redux/features/movieApi";
 import { getRandomSubset } from "@/utilities/gerRandomSubsets";
 import React, { useMemo } from "react";
@@ -18,12 +23,16 @@ export const Movies: React.FC = () => {
     [moviesData?.results]
   );
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Spinner />;
   if (error) return <p>Error in fetching data</p>;
 
   return (
     <div>
       <MoviesHero movies={movies} />
+      <NowPlayingMovies />
+      <TrendingMovies />
+      <Footer />
+      <ScrollToTop />
     </div>
   );
 };

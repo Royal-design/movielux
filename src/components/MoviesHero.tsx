@@ -35,7 +35,7 @@ export const MoviesHero: React.FC<{ movies: MediaItemType[] }> = ({
         <div className="w-full max-w-4xl space-y-4 sm:space-y-6">
           {/*taing and genres */}
           <div className="flex space-x-3 items-center mb-12">
-            <Button className="rounded-3xl bg-primary px-2 h-7 w-fit hover:bg-primary/90 transition-colors">
+            <Button className="rounded-3xl bg-primary px-2 h-7  hover:bg-primary/90 transition-colors">
               <span>★</span>{" "}
               <span className="text-sm">{movie.vote_average}</span>
             </Button>

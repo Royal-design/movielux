@@ -107,6 +107,19 @@ export const movieApi = createApi({
       query: ({ mediaType, timeWindow, page = 1 }) =>
         `trending/${mediaType}/${timeWindow}?page=${page}`
     }),
+    searchMovies: builder.query<
+      MediaResponseType,
+      { query: string; page?: number; includeAdult?: boolean }
+    >({
+      query: ({ query, page = 1, includeAdult = false }) => ({
+        url: `search/movie`,
+        params: {
+          query,
+          page,
+          include_adult: includeAdult
+        }
+      })
+    }),
     getDiscover: builder.query<MediaResponseType, DiscoverQueryParams>({
       query: ({
         mediaType,
@@ -132,6 +145,12 @@ export const movieApi = createApi({
         }
         return queryStr;
       }
+    }),
+    getOnTheAir: builder.query<MediaResponseType, { page?: number }>({
+      query: ({ page = 1 }) => `tv/on_the_air?page=${page}`
+    }),
+    getTVDetails: builder.query<MovieDetailType, { id: string }>({
+      query: (id) => `tv/${id}`
     })
   })
 });
@@ -146,5 +165,8 @@ export const {
   useGetDiscoverQuery,
   useGetTrendingQuery,
   useGetPopularPeopleQuery,
-  useGetMovieDetailQuery
+  useGetMovieDetailQuery,
+  useSearchMoviesQuery,
+  useGetOnTheAirQuery,
+  useGetTVDetailsQuery
 } = movieApi;

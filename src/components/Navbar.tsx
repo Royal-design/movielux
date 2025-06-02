@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAppSelector } from "@/redux/store";
+import { cn } from "@/lib/utils";
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -29,13 +30,13 @@ export const Navbar = () => {
 
   return (
     <div
-      className={`fixed top-0 left-0 right-0 z-30 transition-all duration-500 font-rajdhani w-full ${
-        !isVisible ? "opacity-0 pointer-events-none" : ""
-      } ${
+      className={cn(
+        "fixed top-0 left-0 right-0 z-30 transition-all duration-500 font-rajdhani w-full",
+        !isVisible ? "opacity-0 pointer-events-none" : "",
         isScrolled
           ? "bg-black/90 backdrop-blur-md py-2 shadow-lg"
           : "bg-transparent py-4"
-      }`}
+      )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo Section */}

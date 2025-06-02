@@ -1,7 +1,9 @@
+import type { CreditsResponse } from "@/types/CreditsType";
 import type { GenreType } from "@/types/GenreType";
 import type { MediaItemType } from "@/types/MediaType";
 import type { MovieDetailType } from "@/types/MovieDetailType";
 import type { PersonType } from "@/types/PersonType";
+import type { TvDetailsResponse } from "@/types/TvDetailsResponse";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const token = import.meta.env.VITE_TMDB_API_TOKEN;
@@ -107,12 +109,17 @@ export const movieApi = createApi({
       query: ({ mediaType, timeWindow, page = 1 }) =>
         `trending/${mediaType}/${timeWindow}?page=${page}`
     }),
-    searchMovies: builder.query<
+    searchMedia: builder.query<
       MediaResponseType,
-      { query: string; page?: number; includeAdult?: boolean }
+      {
+        query: string;
+        page?: number;
+        includeAdult?: boolean;
+        mediaType: string;
+      }
     >({
-      query: ({ query, page = 1, includeAdult = false }) => ({
-        url: `search/movie`,
+      query: ({ query, page = 1, includeAdult = false, mediaType }) => ({
+        url: `search/${mediaType}`,
         params: {
           query,
           page,
@@ -149,8 +156,14 @@ export const movieApi = createApi({
     getOnTheAir: builder.query<MediaResponseType, { page?: number }>({
       query: ({ page = 1 }) => `tv/on_the_air?page=${page}`
     }),
-    getTVDetails: builder.query<MovieDetailType, { id: string }>({
-      query: (id) => `tv/${id}`
+    getTVDetails: builder.query<TvDetailsResponse, { id: string }>({
+      query: ({ id }) => `tv/${id}`
+    }),
+    getCredits: builder.query<
+      CreditsResponse,
+      { id: string; mediaType: "tv" | "movie" }
+    >({
+      query: ({ id, mediaType }) => `${mediaType}/${id}/credits`
     })
   })
 });
@@ -166,7 +179,8 @@ export const {
   useGetTrendingQuery,
   useGetPopularPeopleQuery,
   useGetMovieDetailQuery,
-  useSearchMoviesQuery,
+  useSearchMediaQuery,
   useGetOnTheAirQuery,
-  useGetTVDetailsQuery
+  useGetTVDetailsQuery,
+  useGetCreditsQuery
 } = movieApi;

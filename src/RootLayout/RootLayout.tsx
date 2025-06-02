@@ -4,10 +4,12 @@ import { matchPath, Outlet, useLocation } from "react-router-dom";
 
 export const RootLayout: React.FC = () => {
   const location = useLocation();
-  const isMovieDetailPage = matchPath("/movies/movie/:id", location.pathname);
+  const isDetailPage =
+    matchPath("/movies/movie/:id", location.pathname) ||
+    matchPath("/series/:id", location.pathname);
   return (
     <div>
-      {!isMovieDetailPage && <Navbar />}
+      {!isDetailPage && <Navbar />}
 
       <main className="">
         <Outlet />

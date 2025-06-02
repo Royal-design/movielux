@@ -3,9 +3,10 @@ import type { PersonType } from "@/types/PersonType";
 import { getGenderLabel } from "@/utilities/getGender";
 import React from "react";
 import { Card, CardContent } from "./ui/card";
+import type { CastMember } from "@/types/CreditsType";
 
 interface PersonProps {
-  person: PersonType;
+  person: CastMember | PersonType;
 }
 
 export const PopularPersonCard: React.FC<PersonProps> = ({ person }) => {
@@ -113,9 +114,9 @@ export const PopularPersonCard: React.FC<PersonProps> = ({ person }) => {
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                 </svg>
                 <span className="font-medium text-zinc-300">
-                  {person.popularity > 20
+                  {person.popularity > 10
                     ? "Hot"
-                    : person.popularity > 15
+                    : person.popularity > 5
                     ? "Popular"
                     : "Rising"}
                 </span>

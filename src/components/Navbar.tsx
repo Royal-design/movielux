@@ -11,8 +11,7 @@ export const Navbar = () => {
   const links = [
     { name: "Home", path: "/" },
     { name: "Movies", path: "/movies" },
-    { name: "Series", path: "/series" },
-    { name: "TV Shows", path: "/tv" }
+    { name: "Series", path: "/series" }
   ];
 
   useEffect(() => {

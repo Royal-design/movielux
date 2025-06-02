@@ -125,19 +125,27 @@ export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
                     <div className="w-full max-w-full flex flex-col space-y-2 sm:space-y-3 md:space-y-4">
                       <p className="text-primary text-sm sm:text-lg md:text-xl font-rajdhani flex flex-wrap items-center gap-2">
                         <span>★ {show.vote_average.toFixed(1)}</span>
-                        <span className="text-white text-xs sm:text-sm md:text-base">
+                        <span className="text-white bg-primary rounded-md px-2 text-xs sm:text-sm md:text-base">
                           {formatDate(getMediaReleaseDate(show))}
                         </span>
                       </p>
-                      <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-playfair font-bold text-white leading-tight">
+                      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-playfair font-bold text-white leading-tight">
                         {getMediaTitle(show)}
                       </h2>
-                      <p className="text-white text-xs sm:text-sm md:text-base font-light leading-relaxed font-urbanist line-clamp-2 sm:line-clamp-3 md:line-clamp-4">
+                      <p className="text-white text-lg font-light leading-relaxed font-urbanist line-clamp-2 sm:line-clamp-3 md:line-clamp-4">
                         {show.overview}
                       </p>
-                      <p className="text-xs font-rajdhani sm:text-sm text-primary">
-                        {genres ? getGenreNames(show.genre_ids, genres) : ""}
-                      </p>
+                      {/* genres */}
+                      <div className="flex items-center gap-2">
+                        {genres &&
+                          getGenreNames(show.genre_ids, genres)
+                            .split(",")
+                            .map((genre) => (
+                              <span className="px-2 py-1 bg-primary rounded-md text-xs">
+                                {genre}
+                              </span>
+                            ))}
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -11,6 +11,8 @@ import { BoxOffice } from "@/components/BoxOffice";
 import { ProductionCompanies } from "@/components/ProductionCompanies";
 import { IoGlobe } from "react-icons/io5";
 import { useEffect } from "react";
+import { MediaCredits } from "@/components/MediaCredits";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 export const MovieDetail = () => {
   const movieId = useParams().id;
@@ -79,6 +81,9 @@ export const MovieDetail = () => {
             {/* Trailer */}
             <MovieTrailer movieId={movie.id} />
 
+            {/* Credits */}
+            <MediaCredits media={movie} mediaType="movie" />
+
             {/* Box Office */}
             <BoxOffice budget={movie.budget} revenue={movie.revenue} />
 
@@ -102,6 +107,7 @@ export const MovieDetail = () => {
           </div>
         </div>
       </div>
+      <ScrollToTop />
     </div>
   );
 };

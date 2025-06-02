@@ -22,12 +22,16 @@ const Series = lazy(() =>
     default: Series
   }))
 );
-const Tv = lazy(() =>
-  import("./Pages/Tv").then(({ Tv }) => ({
-    default: Tv
+const SeriesDetail = lazy(() =>
+  import("./Pages/SeriesDetail").then(({ SeriesDetail }) => ({
+    default: SeriesDetail
   }))
 );
-
+const PeopleDetails = lazy(() =>
+  import("./Pages/PeopleDetails").then(({ PeopleDetails }) => ({
+    default: PeopleDetails
+  }))
+);
 function App() {
   const router = createBrowserRouter([
     {
@@ -46,6 +50,7 @@ function App() {
           path: "/",
           element: <Home />
         },
+
         {
           path: "/movies",
 
@@ -62,11 +67,20 @@ function App() {
         },
         {
           path: "/series",
-          element: <Series />
+          children: [
+            {
+              index: true,
+              element: <Series />
+            },
+            {
+              path: "/series/:id",
+              element: <SeriesDetail />
+            }
+          ]
         },
         {
-          path: "/tv",
-          element: <Tv />
+          path: "/people/:id",
+          element: <PeopleDetails />
         }
       ]
     }

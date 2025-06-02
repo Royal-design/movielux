@@ -7,7 +7,7 @@ import { Input } from "./ui/input";
 import { Label } from "@radix-ui/react-label";
 import { NavLink } from "react-router-dom";
 
-export const SearchMovies = () => {
+export const SearchSeries = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [debouncedQuery, setDebouncedQuery] = useState<string>("");
   const [page, setPage] = useState<number>(1);
@@ -22,13 +22,13 @@ export const SearchMovies = () => {
   }, [searchQuery]);
 
   const {
-    data: movies,
+    data: series,
     isLoading,
     isError,
     isFetching,
     error
   } = useSearchMediaQuery(
-    { query: debouncedQuery, page, mediaType: "movie" },
+    { query: debouncedQuery, page, mediaType: "tv" },
     { skip: !debouncedQuery }
   );
 
@@ -36,8 +36,8 @@ export const SearchMovies = () => {
   const handleNextPage = () => setPage((prev) => prev + 1);
 
   return (
-    <div className="space-y-6 text-white">
-      {/* search movies */}
+    <div className="px-4 py-8  md:px-8 space-y-6 text-white">
+      {/* search series */}
       <div className="relative">
         <Label className="sr-only">Search</Label>
         <Input
@@ -46,8 +46,8 @@ export const SearchMovies = () => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setSearchQuery(e.target.value)
           }
-          placeholder="Search movies..."
-          className="w-full max-w-sm px-4 py-2 rounded-lg border border-primary focus:ring-1 focus:ring-primary/50"
+          placeholder="Search series..."
+          className="w-full max-w-sm px-4 py-2 rounded-lg border border-red-400 focus:ring-1 focus:ring-red-400/50"
           aria-label="Movie search input"
         />
         {(isLoading || isFetching) && (
@@ -60,30 +60,30 @@ export const SearchMovies = () => {
       {isError && (
         <div className="text-red-500 p-4 rounded bg-red-50">
           Error:{" "}
-          {error instanceof Error ? error.message : "Failed to fetch movies"}
+          {error instanceof Error ? error.message : "Failed to fetch series"}
         </div>
       )}
 
-      {/* Movies */}
+      {/* series */}
       {!isError && debouncedQuery && (
         <>
-          {movies && movies.results.length > 0 ? (
+          {series && series.results.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {movies?.results.map((movie) => (
-                <NavLink to={`/movies/movie/${movie.id}`}>
-                  <MediaCard key={movie.id} media={movie} />
+              {series?.results.map((series) => (
+                <NavLink to={`/series/${series.id}`}>
+                  <MediaCard key={series.id} media={series} />
                 </NavLink>
               ))}
             </div>
           ) : (
             <div className="text-center py-8 text-gray-500">
-              No movies found. Try a different search.
+              No series found. Try a different search.
             </div>
           )}
           {/* Pagination */}
           <Pagination
             currentPage={page}
-            totalPages={movies?.total_pages || 1}
+            totalPages={series?.total_pages || 1}
             onPrevious={handlePreviousPage}
             onNext={handleNextPage}
             isDisabled={isFetching}

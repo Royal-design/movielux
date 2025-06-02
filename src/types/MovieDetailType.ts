@@ -1,6 +1,6 @@
 import type { GenreType } from "./GenreType";
 
-export interface ProductionCompany {
+export interface MovieProductionCompany {
   id: number;
   name: string;
   logo_path?: string;
@@ -17,7 +17,7 @@ export interface MovieDetailType {
   vote_average: number;
   vote_count: number;
   genres: GenreType[];
-  production_companies: ProductionCompany[];
+  production_companies: MovieProductionCompany[];
   original_language: string;
   budget: number;
   revenue: number;

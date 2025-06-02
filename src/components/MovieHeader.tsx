@@ -5,7 +5,7 @@ export const MovieHeader: React.FC<{ movie: MovieDetailType }> = ({
   movie
 }) => {
   return (
-    <div className="relative h-96 md:h-[500px] bg-cover bg-center bg-no-repeat">
+    <div className="relative h-96 md:h-[500px]">
       <img
         loading="eager"
         src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
@@ -16,7 +16,9 @@ export const MovieHeader: React.FC<{ movie: MovieDetailType }> = ({
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent"></div>
       <div className="relative container mx-auto px-4 h-full flex items-end pb-8">
         <div className="text-white">
-          <h1 className="text-4xl md:text-6xl font-bold mb-2">{movie.title}</h1>
+          <h1 className="text-4xl md:text-6xl font-cinzel font-bold mb-2">
+            {movie.title}
+          </h1>
           {movie.tagline && (
             <p className="text-xl md:text-2xl text-gray-300 italic">
               {movie.tagline}

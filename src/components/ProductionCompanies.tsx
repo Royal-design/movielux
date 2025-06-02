@@ -1,8 +1,10 @@
-import type { ProductionCompany } from "@/types/MovieDetailType";
+// import type { ProductionCompany } from "@/types/MovieDetailType";
+import type { MovieProductionCompany } from "@/types/MovieDetailType";
+import type { ProductionCompany } from "@/types/TvDetailsResponse";
 import React from "react";
 
 export const ProductionCompanies: React.FC<{
-  companies: ProductionCompany[];
+  companies: MovieProductionCompany[] | ProductionCompany[];
 }> = ({ companies }) => {
   if (!companies.length) return null;
 

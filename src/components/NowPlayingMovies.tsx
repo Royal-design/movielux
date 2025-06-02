@@ -3,6 +3,7 @@ import { getRandomSubset } from "@/utilities/gerRandomSubsets";
 import React, { useMemo } from "react";
 import { SearchMovies } from "./SearchMovies";
 import { MediaCard } from "./MediaCard";
+import { NavLink } from "react-router-dom";
 
 export const NowPlayingMovies: React.FC = () => {
   const { data: moviesData } = useGetNowPlayingQuery({
@@ -28,7 +29,9 @@ export const NowPlayingMovies: React.FC = () => {
       {/*Now playing Movies */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
         {movies?.map((movie) => (
-          <MediaCard key={movie.id} media={movie} />
+          <NavLink to={`/movies/movie/${movie.id}`}>
+            <MediaCard key={movie.id} media={movie} />
+          </NavLink>
         ))}
       </div>
     </div>

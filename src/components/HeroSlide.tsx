@@ -30,7 +30,7 @@ export const HeroSlide: React.FC<{ media: MediaItemType }> = ({ media }) => {
   }, [isPlaying]);
 
   return (
-    <div className="relative h-full w-full min-h-[400px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[700px]">
+    <div className="relative h-full w-full min-h-dvh md:h-screen">
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full">
         <img
@@ -41,7 +41,8 @@ export const HeroSlide: React.FC<{ media: MediaItemType }> = ({ media }) => {
           className="w-full h-full object-cover"
         />
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-background/90 to-background/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-background to-background/10"></div>
       </div>
 
       {/* Content */}

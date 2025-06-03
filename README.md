@@ -1,54 +1,33 @@
-# React + TypeScript + Vite
+# MovieLux
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+MovieLux is a modern movie discovery web application built with **React** and **TypeScript**. It leverages the **TMDB (The Movie Database) API** to provide up-to-date movie information, and uses **Redux Toolkit Query (RTK Query)** for efficient and optimized data fetching and state management.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- Browse trending, popular, and upcoming movies
+- Search movies by title
+- View detailed movie information including synopsis, cast, ratings, and trailers
+- Responsive and modern UI built with React and TypeScript
+- Efficient data fetching with Redux Toolkit Query
+- Client-side routing with React Router
+- State management with Redux Toolkit
+- Error handling and loading states for API calls
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Demo
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Add your live demo URL here (e.g., [https://movielux.example.com](https://movielux.vercel.app/))
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Tech Stack
+
+- React
+- TypeScript
+- Redux Toolkit + RTK Query
+- TMDB API
+- React Router DOM
+- CSS / Tailwind CSS / ShadCN UI

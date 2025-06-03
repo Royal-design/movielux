@@ -54,7 +54,7 @@ export const Navbar = () => {
           </div>
           <div>
             <h2 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-primary-red via-red-500 to-red-400 bg-clip-text text-transparent hover:from-red-400 hover:to-primary-red transition-all duration-300">
-              Movilux
+              Movielux
             </h2>
             <div className="h-0.5 bg-gradient-to-r from-primary-red to-transparent w-0 hover:w-full transition-all duration-500"></div>
           </div>

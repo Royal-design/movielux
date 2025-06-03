@@ -27,11 +27,7 @@ const SeriesDetail = lazy(() =>
     default: SeriesDetail
   }))
 );
-const PeopleDetails = lazy(() =>
-  import("./Pages/PeopleDetails").then(({ PeopleDetails }) => ({
-    default: PeopleDetails
-  }))
-);
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -77,10 +73,6 @@ function App() {
               element: <SeriesDetail />
             }
           ]
-        },
-        {
-          path: "/people/:id",
-          element: <PeopleDetails />
         }
       ]
     }

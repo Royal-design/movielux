@@ -28,56 +28,56 @@ const SeriesDetail = lazy(() =>
   }))
 );
 
+const router = createBrowserRouter([
+  {
+    element: (
+      <Suspense fallback={<SuspenseSpinner />}>
+        <RootLayout />
+      </Suspense>
+    ),
+    errorElement: (
+      <Suspense fallback={<SuspenseSpinner />}>
+        <Error />
+      </Suspense>
+    ),
+    children: [
+      {
+        path: "/",
+        element: <Home />
+      },
+
+      {
+        path: "/movies",
+
+        children: [
+          {
+            index: true,
+            element: <Movies />
+          },
+          {
+            path: "movie/:id",
+            element: <MovieDetail />
+          }
+        ]
+      },
+      {
+        path: "/series",
+        children: [
+          {
+            index: true,
+            element: <Series />
+          },
+          {
+            path: "/series/:id",
+            element: <SeriesDetail />
+          }
+        ]
+      }
+    ]
+  }
+]);
+
 function App() {
-  const router = createBrowserRouter([
-    {
-      element: (
-        <Suspense fallback={<SuspenseSpinner />}>
-          <RootLayout />
-        </Suspense>
-      ),
-      errorElement: (
-        <Suspense fallback={<SuspenseSpinner />}>
-          <Error />
-        </Suspense>
-      ),
-      children: [
-        {
-          path: "/",
-          element: <Home />
-        },
-
-        {
-          path: "/movies",
-
-          children: [
-            {
-              index: true,
-              element: <Movies />
-            },
-            {
-              path: "movie/:id",
-              element: <MovieDetail />
-            }
-          ]
-        },
-        {
-          path: "/series",
-          children: [
-            {
-              index: true,
-              element: <Series />
-            },
-            {
-              path: "/series/:id",
-              element: <SeriesDetail />
-            }
-          ]
-        }
-      ]
-    }
-  ]);
-
   return <RouterProvider router={router} />;
 }
 

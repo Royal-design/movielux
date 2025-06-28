@@ -19,7 +19,7 @@ MovieLux is a modern movie discovery web application built with **React** and **
 
 ## Demo
 
-Preview the link: [https://movielux.vercel.app/]
+Preview the link: https://movielux.vercel.app/
 
 ---
 

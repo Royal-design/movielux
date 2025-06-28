@@ -23,8 +23,8 @@ export const TvAiring: React.FC = () => {
       {/* series */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
         {series?.map((series) => (
-          <NavLink to={`/series/${series.id}`}>
-            <MediaCard key={series.id} media={series} />
+          <NavLink key={series.id} to={`/series/${series.id}`}>
+            <MediaCard media={series} />
           </NavLink>
         ))}
       </div>

@@ -140,8 +140,11 @@ export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
                         {genres &&
                           getGenreNames(show.genre_ids, genres)
                             .split(",")
-                            .map((genre) => (
-                              <span className="px-2 py-1 bg-primary rounded-md text-xs">
+                            .map((genre, id) => (
+                              <span
+                                key={id}
+                                className="px-2 py-1 bg-primary rounded-md text-xs"
+                              >
                                 {genre}
                               </span>
                             ))}

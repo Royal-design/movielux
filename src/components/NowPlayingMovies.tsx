@@ -29,8 +29,8 @@ export const NowPlayingMovies: React.FC = () => {
       {/*Now playing Movies */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
         {movies?.map((movie) => (
-          <NavLink to={`/movies/movie/${movie.id}`}>
-            <MediaCard key={movie.id} media={movie} />
+          <NavLink key={movie.id} to={`/movies/movie/${movie.id}`}>
+            <MediaCard media={movie} />
           </NavLink>
         ))}
       </div>

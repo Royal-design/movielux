@@ -13,7 +13,6 @@ import { useTrailer } from "./useTrailer";
 export const SeriesHero: React.FC<{ tv: MediaItemType }> = ({ tv }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const { data: genres } = useGetGenresQuery({ mediaType: "tv" });
-  console.log(tv.genre_ids);
 
   const trailerKey = useTrailer("tv", tv.id)?.key ?? "";
   return (
@@ -45,8 +44,11 @@ export const SeriesHero: React.FC<{ tv: MediaItemType }> = ({ tv }) => {
               getGenreNames(tv.genre_ids, genres)
                 .split(",")
                 .slice(0, 2)
-                .map((genre) => (
-                  <span className="rounded-md bg-primary/80 px-2 py-1 text-xs">
+                .map((genre, id) => (
+                  <span
+                    key={id}
+                    className="rounded-md bg-primary/80 px-2 py-1 text-xs"
+                  >
                     {genre}
                   </span>
                 ))}

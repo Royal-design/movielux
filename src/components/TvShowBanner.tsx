@@ -13,7 +13,6 @@ export const TvShowBanner: React.FC = () => {
       ? Math.floor(Math.random() * TvShowData.results.length)
       : 0;
   const tvShow = TvShowData?.results[n];
-  console.log(tvShow);
 
   return (
     <div className="w-full max-w-sm  mx-auto">

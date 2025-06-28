@@ -29,8 +29,8 @@ export const TopRatedSeries = () => {
         {series
           ?.filter((s) => s.vote_count > 200)
           .map((series) => (
-            <NavLink to={`/series/${series.id}`}>
-              <MediaCard key={series.id} media={series} />
+            <NavLink key={series.id} to={`/series/${series.id}`}>
+              <MediaCard media={series} />
             </NavLink>
           ))}
       </div>

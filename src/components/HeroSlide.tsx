@@ -51,7 +51,7 @@ export const HeroSlide: React.FC<{ media: MediaItemType }> = ({ media }) => {
           {/* Rating and Date */}
           <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base md:text-lg">
             <span className="text-amber-300 font-rajdhani flex items-center">
-              ★ {media.vote_average.toFixed(1)}
+              ★ {Number(media.vote_average).toFixed(1)}
             </span>
             <span className="text-white/80">•</span>
             <span className="text-white/80 text-sm sm:text-base">

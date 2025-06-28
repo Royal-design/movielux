@@ -36,7 +36,9 @@ export const MoviesHero: React.FC<{ movies: MediaItemType[] }> = ({
         <div className="w-full max-w-4xl space-y-4 sm:space-y-6">
           {/*rating and genres */}
           <div className="flex space-x-3 items-center mb-12">
-            <span className="text-primary">★ {movie.vote_average}</span>
+            <span className="text-primary">
+              ★ {Number(movie.vote_average).toFixed(1)}
+            </span>
 
             <span className="text-white/80">•</span>
 
@@ -44,8 +46,11 @@ export const MoviesHero: React.FC<{ movies: MediaItemType[] }> = ({
               getGenreNames(movie.genre_ids, genres)
                 .split(",")
                 .slice(0, 2)
-                .map((genre) => (
-                  <span className="rounded-md bg-primary/80 px-2 py-1 text-xs">
+                .map((genre, id) => (
+                  <span
+                    key={id}
+                    className="rounded-md bg-primary/80 px-2 py-1 text-xs"
+                  >
                     {genre}
                   </span>
                 ))}

@@ -4,16 +4,17 @@ import { HeroSlide } from "./HeroSlide";
 import useEmblaCarousel from "embla-carousel-react";
 import { Spinner } from "./Spinner";
 import { getRandomSubset } from "@/utilities/gerRandomSubsets";
+import { Layout } from "@/layout/Layout";
 
 export const HeroSection = ({ onLoaded }: { onLoaded?: () => void }) => {
   const {
     data: upcomingMovies,
     isError,
     isLoading,
-    error
+    error,
   } = useGetUpcomingQuery({
     mediaType: "movie",
-    page: 1
+    page: 1,
   });
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -25,7 +26,7 @@ export const HeroSection = ({ onLoaded }: { onLoaded?: () => void }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     skipSnaps: false,
-    align: "start"
+    align: "start",
   });
 
   const scrollTo = useCallback(
@@ -82,30 +83,32 @@ export const HeroSection = ({ onLoaded }: { onLoaded?: () => void }) => {
       </div>
 
       {/* Pagination with dynamic line styling */}
-      <div className="absolute bottom-4 left-0 transform  flex items-center gap-4 px-8 font-rajdhani">
-        {latestUpcomingMovies.map((_, index) => (
-          <div key={index} className="flex items-center">
-            <button
-              onClick={() => scrollTo(index)}
-              className={`text-xs font-bold transition-colors ${
-                index === activeIndex ? "text-white" : "text-gray-400"
-              }`}
-            >
-              0{index + 1}
-            </button>
-            {/* Line, dynamic opacity based on active index */}
-            {index < latestUpcomingMovies.length - 1 && (
-              <div
-                className={`mx-2 w-8 h-px transition-all duration-300 ${
-                  index < activeIndex
-                    ? "bg-white opacity-100"
-                    : "bg-white opacity-50"
+      <Layout className="relative">
+        <div className="absolute bottom-4 left-0 transform  flex items-center gap-4  font-rajdhani">
+          {latestUpcomingMovies.map((_, index) => (
+            <div key={index} className="flex items-center">
+              <button
+                onClick={() => scrollTo(index)}
+                className={`text-xs font-bold transition-colors ${
+                  index === activeIndex ? "text-white" : "text-gray-400"
                 }`}
-              />
-            )}
-          </div>
-        ))}
-      </div>
+              >
+                0{index + 1}
+              </button>
+              {/* Line, dynamic opacity based on active index */}
+              {index < latestUpcomingMovies.length - 1 && (
+                <div
+                  className={`mx-2 w-8 h-px transition-all duration-300 ${
+                    index < activeIndex
+                      ? "bg-white opacity-100"
+                      : "bg-white opacity-50"
+                  }`}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      </Layout>
     </div>
   );
 };

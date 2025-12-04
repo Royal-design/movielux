@@ -13,6 +13,7 @@ import { IoGlobe } from "react-icons/io5";
 import { useEffect } from "react";
 import { MediaCredits } from "@/components/MediaCredits";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { Layout } from "@/layout/Layout";
 
 export const MovieDetail = () => {
   const movieId = useParams().id;
@@ -24,9 +25,9 @@ export const MovieDetail = () => {
   const {
     data: movie,
     error,
-    isLoading
+    isLoading,
   } = useGetMovieDetailQuery({
-    id: movieId ?? ""
+    id: movieId ?? "",
   });
 
   if (isLoading) return <MovingLoadingSkeleton />;
@@ -38,75 +39,80 @@ export const MovieDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Back Button */}
-      <div className="absolute top-4 left-4 z-10">
-        <Link
-          to="/"
-          className="flex items-center gap-2 bg-gray-900/60 backdrop-blur-sm border border-gray-700/50 text-white px-4 py-2 rounded-lg hover:bg-gray-800/60 transition-colors"
-        >
-          <MdOutlineKeyboardArrowLeft className="w-5 h-5" />
-          Back
-        </Link>
-      </div>
+      <Layout>
+        <div className="relative">
+          <Link
+            to="/"
+            className="flex absolute top-12 left-4 z-10 items-center gap-2 bg-gray-900/60 backdrop-blur-sm border border-gray-700/50 text-white px-4 py-2 rounded-lg hover:bg-gray-800/60 transition-colors"
+          >
+            <MdOutlineKeyboardArrowLeft className="w-5 h-5" />
+            Back
+          </Link>
+        </div>
+      </Layout>
 
       {/* Movie Header */}
       <MovieHeader movie={movie} />
 
-      {/* Movie Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Movie Poster */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-8">
-              <img
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-                className="w-full rounded-lg shadow-2xl"
-              />
-            </div>
-          </div>
-
-          {/* Movie Details */}
-          <div className="lg:col-span-2">
-            <MovieStats movie={movie} />
-            <GenreTags genres={movie.genres} />
-
-            {/* Overview */}
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold text-white mb-4">Overview</h2>
-              <p className="text-gray-200 text-lg leading-relaxed">
-                {movie.overview || "No overview available."}
-              </p>
-            </div>
-
-            {/* Trailer */}
-            <MovieTrailer movieId={movie.id} />
-
-            {/* Credits */}
-            <MediaCredits media={movie} mediaType="movie" />
-
-            {/* Box Office */}
-            <BoxOffice budget={movie.budget} revenue={movie.revenue} />
-
-            {/* Production Companies */}
-            <ProductionCompanies companies={movie.production_companies} />
-
-            {/* External Links */}
-            {movie.homepage && (
-              <div className="mb-8">
-                <a
-                  href={movie.homepage}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-purple-700/50 border border-purple-600/50 hover:bg-purple-600/50 text-white px-6 py-3 rounded-lg transition-colors backdrop-blur-sm"
-                >
-                  <IoGlobe className="w-5 h-5" />
-                  Official Website
-                </a>
+      <Layout>
+        {/* Movie Content */}
+        <div className="py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Movie Poster */}
+            <div className="lg:col-span-1">
+              <div className="sticky top-8">
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                  className="w-full rounded-lg shadow-2xl"
+                />
               </div>
-            )}
+            </div>
+
+            {/* Movie Details */}
+            <div className="lg:col-span-2">
+              <MovieStats movie={movie} />
+              <GenreTags genres={movie.genres} />
+
+              {/* Overview */}
+              <div className="mb-8">
+                <h2 className="text-3xl font-bold text-white mb-4">Overview</h2>
+                <p className="text-gray-200 text-lg leading-relaxed">
+                  {movie.overview || "No overview available."}
+                </p>
+              </div>
+
+              {/* Trailer */}
+              <MovieTrailer movieId={movie.id} />
+
+              {/* Credits */}
+              <MediaCredits media={movie} mediaType="movie" />
+
+              {/* Box Office */}
+              <BoxOffice budget={movie.budget} revenue={movie.revenue} />
+
+              {/* Production Companies */}
+              <ProductionCompanies companies={movie.production_companies} />
+
+              {/* External Links */}
+              {movie.homepage && (
+                <div className="mb-8">
+                  <a
+                    href={movie.homepage}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-purple-700/50 border border-purple-600/50 hover:bg-purple-600/50 text-white px-6 py-3 rounded-lg transition-colors backdrop-blur-sm"
+                  >
+                    <IoGlobe className="w-5 h-5" />
+                    Official Website
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </Layout>
+
       <ScrollToTop />
     </div>
   );

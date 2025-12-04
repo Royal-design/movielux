@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 export const NowPlayingMovies: React.FC = () => {
   const { data: moviesData } = useGetNowPlayingQuery({
     mediaType: "movie",
-    page: 1
+    page: 1,
   });
 
   const movies = useMemo(
@@ -16,7 +16,7 @@ export const NowPlayingMovies: React.FC = () => {
     [moviesData?.results]
   );
   return (
-    <div className="text-white px-4 py-8  md:px-8 md:py-12">
+    <div className="text-white ">
       {/* title */}
       <div className="flex flex-row items-end w-full mb-12">
         <h1 className="text-2xl md:text-3xl font-oswald font-bold">

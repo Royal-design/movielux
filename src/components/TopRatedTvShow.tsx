@@ -10,7 +10,7 @@ const OPTIONS: EmblaOptionsType = { dragFree: true, loop: true };
 export const TopRatedTvShow: React.FC = () => {
   const { data: TvShowData } = useGetTopRatedQuery({
     mediaType: "tv",
-    page: 1
+    page: 1,
   });
 
   const topRatedTvShow = useMemo(() => {
@@ -18,7 +18,7 @@ export const TopRatedTvShow: React.FC = () => {
   }, [TvShowData?.results]);
 
   return (
-    <div className="px-4 py-9 md:px-8 md:py-12 h-full  w-full">
+    <div className="py-9  md:py-12 h-full  w-full">
       <div className="flex flex-row items-end w-full mb-12">
         <h1 className="text-2xl md:text-3xl font-oswald font-bold">
           Top Rated TV Show

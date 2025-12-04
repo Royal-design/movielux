@@ -6,7 +6,7 @@ import { getMediaTitle } from "@/utilities/MediaUtilities";
 export const TvShowBanner: React.FC = () => {
   const { data: TvShowData } = useGetTopRatedQuery({
     mediaType: "tv",
-    page: 1
+    page: 1,
   });
   const n =
     TvShowData && TvShowData.results
@@ -15,7 +15,7 @@ export const TvShowBanner: React.FC = () => {
   const tvShow = TvShowData?.results[n];
 
   return (
-    <div className="w-full max-w-sm  mx-auto">
+    <div className="w-full md:max-w-sm  mx-auto">
       {tvShow && (
         <Card className="p-0 gap-0 w-full h-[400px] sm:h-[450px] border-primary/30 rounded-none rounded-tr-3xl rounded-bl-3xl overflow-hidden relative">
           <CardContent className="p-0 h-full relative">

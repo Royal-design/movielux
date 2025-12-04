@@ -9,7 +9,7 @@ export const PopularPerson: React.FC = () => {
     data: peopleData,
     isError,
     isFetching,
-    isLoading
+    isLoading,
   } = useGetPopularPeopleQuery({ page: 1 });
 
   const people = useMemo(() => {
@@ -17,7 +17,7 @@ export const PopularPerson: React.FC = () => {
   }, [peopleData?.results]);
 
   return (
-    <div className="text-white px-4 pt-8  md:px-8 md:pt-12">
+    <div className="text-white pt-8 md:pt-12">
       <div className="flex flex-row items-end w-full mb-12">
         <h1 className="text-2xl md:text-3xl font-oswald font-bold">
           Spotlight People

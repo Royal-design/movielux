@@ -8,7 +8,7 @@ export const TrendingSeries: React.FC = () => {
   const { data: seriesData } = useGetTrendingQuery({
     mediaType: "tv",
     timeWindow: "day",
-    page: 1
+    page: 1,
   });
 
   const series = useMemo(
@@ -16,7 +16,7 @@ export const TrendingSeries: React.FC = () => {
     [seriesData?.results]
   );
   return (
-    <div className="text-white px-4 py-8  md:px-8 md:py-12">
+    <div className="text-white mt-12 mb-20">
       {/* title */}
       <div className="flex flex-row items-end w-full mb-12">
         <h1 className="text-2xl md:text-3xl font-oswald font-bold">

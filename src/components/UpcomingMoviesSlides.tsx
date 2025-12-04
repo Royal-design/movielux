@@ -14,7 +14,7 @@ export const UpcomingMoviesSlides: React.FC<MoviesProps> = ({ movies }) => {
     skipSnaps: false,
     align: "start",
     dragFree: true,
-    containScroll: "trimSnaps"
+    containScroll: "trimSnaps",
   });
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
@@ -69,12 +69,12 @@ export const UpcomingMoviesSlides: React.FC<MoviesProps> = ({ movies }) => {
         disabled={!prevBtnEnabled}
         className={`
             absolute left-0 top-1/2 -translate-y-1/2 z-10
-            w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-black/50 text-white
+            w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-amber-300 text-white
             flex items-center justify-center
             transition-all duration-200
             ${
               prevBtnEnabled
-                ? "opacity-100 hover:bg-black/70 cursor-pointer"
+                ? "opacity-100 hover:bg-amber-300/70 cursor-pointer"
                 : "opacity-30 cursor-not-allowed"
             }
           `}
@@ -100,12 +100,12 @@ export const UpcomingMoviesSlides: React.FC<MoviesProps> = ({ movies }) => {
         disabled={!nextBtnEnabled}
         className={`
             absolute right-0 top-1/2 -translate-y-1/2 z-10
-            w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-black/50 text-white
+            w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-amber-300 text-white
             flex items-center justify-center
             transition-all duration-200
             ${
               nextBtnEnabled
-                ? "opacity-100 hover:bg-black/70 cursor-pointer"
+                ? "opacity-100 hover:bg-amber-300/70 cursor-pointer"
                 : "opacity-30 cursor-not-allowed"
             }
           `}

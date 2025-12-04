@@ -1,6 +1,6 @@
 import {
   useGetDiscoverQuery,
-  useGetGenresQuery
+  useGetGenresQuery,
 } from "@/redux/features/movieApi";
 import type { MediaItemType } from "@/types/MediaType";
 import React, { useMemo, useState } from "react";
@@ -15,19 +15,19 @@ export const Trending: React.FC = () => {
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
 
   const { data: genresData } = useGetGenresQuery({
-    mediaType: "movie"
+    mediaType: "movie",
   });
 
   const {
     data: moviesData,
     isError,
     isLoading,
-    isFetching
+    isFetching,
   } = useGetDiscoverQuery({
     mediaType: "movie",
     page: 1,
     genres: selectedGenres,
-    sortBy: "popularity.desc"
+    sortBy: "popularity.desc",
   });
 
   const trendingMovies = useMemo(() => {
@@ -43,7 +43,7 @@ export const Trending: React.FC = () => {
   };
 
   return (
-    <div className="text-white px-4 py-8  md:px-8 md:py-12">
+    <div className="text-white ">
       <div className="flex flex-row items-end w-full mb-12">
         <h1 className="text-2xl md:text-3xl font-oswald font-bold">
           Trending Movies

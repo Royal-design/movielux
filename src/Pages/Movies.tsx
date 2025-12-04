@@ -4,6 +4,7 @@ import { NowPlayingMovies } from "@/components/NowPlayingMovies";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { Spinner } from "@/components/Spinner";
 import { TrendingMovies } from "@/components/TrendingMovies";
+import { Layout } from "@/layout/Layout";
 import { useGetNowPlayingQuery } from "@/redux/features/movieApi";
 import { getRandomSubset } from "@/utilities/gerRandomSubsets";
 import React, { useMemo } from "react";
@@ -12,10 +13,10 @@ export const Movies: React.FC = () => {
   const {
     data: moviesData,
     isLoading,
-    error
+    error,
   } = useGetNowPlayingQuery({
     mediaType: "movie",
-    page: 1
+    page: 1,
   });
 
   const movies = useMemo(
@@ -29,8 +30,10 @@ export const Movies: React.FC = () => {
   return (
     <div>
       <MoviesHero movies={movies} />
-      <NowPlayingMovies />
-      <TrendingMovies />
+      <Layout>
+        <NowPlayingMovies />
+        <TrendingMovies />
+      </Layout>
       <Footer />
       <ScrollToTop />
     </div>

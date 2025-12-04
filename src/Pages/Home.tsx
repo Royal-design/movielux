@@ -5,6 +5,7 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { TopRatedTvShow } from "@/components/TopRatedTvShow";
 import { Trending } from "@/components/Trending";
 import { UpcomingMovies } from "@/components/UpcomingMovies";
+import { Layout } from "@/layout/Layout";
 
 import React, { useState } from "react";
 
@@ -17,15 +18,15 @@ export const Home: React.FC = () => {
 
       {/* Only render MovieCards after hero has loaded */}
       {isHeroLoaded && (
-        <div className="">
+        <Layout className="relative mb-20 mt-8">
           <Trending />
           <TopRatedTvShow />
           <UpcomingMovies />
           <PopularPerson />
-          <Footer />
-          <ScrollToTop />
-        </div>
+        </Layout>
       )}
+      <Footer />
+      <ScrollToTop />
     </div>
   );
 };

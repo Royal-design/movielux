@@ -9,12 +9,13 @@ import { TvAiring } from "@/components/TvAiring";
 import { TopRatedSeries } from "@/components/TopRatedSeries";
 import { Footer } from "@/components/Footer";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { Layout } from "@/layout/Layout";
 
 export const Series: React.FC = () => {
   const { data, isLoading } = useGetTrendingQuery({
     mediaType: "tv",
     timeWindow: "week",
-    page: 1
+    page: 1,
   });
 
   const series = useMemo(
@@ -28,10 +29,12 @@ export const Series: React.FC = () => {
   return (
     <div className="">
       <SeriesHero tv={featuredSeries} />
-      <SearchSeries />
-      <TvAiring />
-      <TopRatedSeries />
-      <TrendingSeries />
+      <Layout>
+        <SearchSeries />
+        <TvAiring />
+        <TopRatedSeries />
+        <TrendingSeries />
+      </Layout>
       <Footer />
       <ScrollToTop />
     </div>

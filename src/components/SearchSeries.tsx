@@ -26,7 +26,7 @@ export const SearchSeries = () => {
     isLoading,
     isError,
     isFetching,
-    error
+    error,
   } = useSearchMediaQuery(
     { query: debouncedQuery, page, mediaType: "tv" },
     { skip: !debouncedQuery }
@@ -36,7 +36,7 @@ export const SearchSeries = () => {
   const handleNextPage = () => setPage((prev) => prev + 1);
 
   return (
-    <div className="px-4 py-8  md:px-8 space-y-6 text-white">
+    <div className="py-8 space-y-6 text-white">
       {/* search series */}
       <div className="relative">
         <Label className="sr-only">Search</Label>

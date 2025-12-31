@@ -7,7 +7,7 @@ MovieLux is a modern movie discovery web application built with **React** and **
 ## Features
 
 - Browse trending, popular, and upcoming movies
-- Search different movies by title
+- Search different movies by name.
 - View detailed movie information including synopsis, cast, ratings, and trailers
 - Responsive and modern UI built with React and TypeScript
 - Efficient data fetching with Redux Toolkit Query

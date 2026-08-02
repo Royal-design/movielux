@@ -1,14 +1,25 @@
-import React from "react";
+import { ErrorState } from "./ErrorState";
+import { Button } from "./ui/button";
+import { Home } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const MovieErrorMessage: React.FC<{ message: string }> = ({
-  message
+  message,
 }) => {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center">
-      <div className="text-center text-white">
-        <h2 className="text-2xl font-bold mb-4">Something went wrong</h2>
-        <p className="text-gray-400">{message}</p>
-      </div>
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <ErrorState
+        title="Failed to load"
+        message={message}
+        action={
+          <Link to="/">
+            <Button variant="outline">
+              <Home aria-hidden="true" />
+              Back home
+            </Button>
+          </Link>
+        }
+      />
     </div>
   );
 };

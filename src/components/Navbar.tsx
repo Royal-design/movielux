@@ -3,144 +3,129 @@ import { useState, useEffect } from "react";
 import { useAppSelector } from "@/redux/store";
 import { cn } from "@/lib/utils";
 import { Layout } from "@/layout/Layout";
+import { Logo } from "./Logo";
+import { Menu, X } from "lucide-react";
+
+const links = [
+  { name: "Home", path: "/" },
+  { name: "Movies", path: "/movies" },
+  { name: "Series", path: "/series" },
+];
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isVisible = useAppSelector((state) => state.navbar.isVisible);
 
-  const links = [
-    { name: "Home", path: "/" },
-    { name: "Movies", path: "/movies" },
-    { name: "Series", path: "/series" },
-  ];
-
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => setIsScrolled(window.scrollY > 40);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
+  const linkClass = ({ isActive }: { isActive: boolean }) =>
+    cn(
+      "relative flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full transition-all duration-300",
+      isActive
+        ? "glass text-white"
+        : "text-muted hover:text-white hover:bg-white/[0.05]"
+    );
 
   return (
-    <div
+    <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-30 transition-all duration-500 font-rajdhani w-full",
-        !isVisible ? "opacity-0 pointer-events-none" : "",
-        isScrolled
-          ? "bg-black/90 backdrop-blur-md py-2 shadow-lg"
-          : "bg-transparent py-4"
+        "fixed top-0 left-0 right-0 z-40 transition-all duration-500",
+        !isVisible && "opacity-0 pointer-events-none"
       )}
     >
-      <Layout>
-        <div className="flex items-center justify-between">
-          {/* Logo Section */}
-          <div className="flex items-center space-x-3">
-            <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-red via-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg hover:shadow-red-500/25 transition-shadow duration-300">
-                <svg
-                  className="w-6 h-6 text-white transform hover:scale-110 transition-transform duration-200"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z" />
-                </svg>
-              </div>
-              <div className="absolute -inset-1 bg-gradient-to-br from-primary-red to-red-600 rounded-xl blur opacity-30 animate-pulse"></div>
-            </div>
-            <div>
-              <h2 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-primary-red via-red-500 to-red-400 bg-clip-text text-transparent hover:from-red-400 hover:to-primary-red transition-all duration-300">
-                Movielux
-              </h2>
-              <div className="h-0.5 bg-gradient-to-r from-primary-red to-transparent w-0 hover:w-full transition-all duration-500"></div>
-            </div>
-          </div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:block">
-            <ul className="flex items-center gap-1">
-              {links.map((link, _) => (
-                <li key={link.name}>
-                  <NavLink
-                    to={link.path}
-                    className={({ isActive }) =>
-                      `relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 group ${
-                        isActive
-                          ? " bg-primary-red/60 shadow-lg shadow-red-500/20 text-white"
-                          : "text-white hover:text-primary-red hover:bg-white/20"
-                      }`
-                    }
-                  >
-                    {({ isActive }) => (
-                      <>
-                        <span className="relative z-10">{link.name}</span>
-                        {isActive && (
-                          <div className="absolute inset-0 bg-gradient-to-r from-primary-red/20 to-red-500/20 rounded-lg"></div>
-                        )}
-                        <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-primary-red to-red-500 group-hover:w-full group-hover:left-0 transition-all duration-300"></div>
-                      </>
-                    )}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={toggleMobileMenu}
-            className="md:hidden relative w-10 h-10 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300"
-            aria-label="Toggle mobile menu"
+      <div className={cn("transition-all duration-500", isScrolled ? "py-2.5" : "py-4")}>
+        <Layout>
+          <div
+            className={cn(
+              "flex items-center justify-between rounded-2xl px-4 sm:px-5 transition-all duration-500",
+              isScrolled ? "glass py-2 shadow-soft" : "py-2"
+            )}
           >
-            <div className="flex flex-col gap-1.5">
-              <span
-                className={`w-5 h-0.5 bg-white transition-all duration-300 ${
-                  isMobileMenuOpen ? "rotate-45 translate-y-2" : ""
-                }`}
-              ></span>
-              <span
-                className={`w-5 h-0.5 bg-white transition-all duration-300 ${
-                  isMobileMenuOpen ? "opacity-0" : ""
-                }`}
-              ></span>
-              <span
-                className={`w-5 h-0.5 bg-white transition-all duration-300 ${
-                  isMobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
-                }`}
-              ></span>
-            </div>
-          </button>
-        </div>
-      </Layout>
+            <Logo />
 
-      {/* Mobile Menu */}
-      <div
-        className={`md:hidden transition-all duration-500 ease-in-out ${
-          isMobileMenuOpen
-            ? "max-h-64 opacity-100"
-            : "max-h-0 opacity-0 overflow-hidden"
-        }`}
-      >
-        <div className="bg-black/95 backdrop-blur-md border-t border-white/10 px-4 py-6">
-          <nav>
-            <ul className="space-y-2">
+            <nav className="hidden md:flex items-center gap-1" aria-label="Primary">
               {links.map((link) => (
-                <li key={link.name}>
+                <NavLink
+                  key={link.path}
+                  to={link.path}
+                  className={linkClass}
+                  end={link.path === "/"}
+                >
+                  {({ isActive }) => (
+                    <>
+                      {isActive && (
+                        <span className="size-1.5 rounded-full bg-marquee" aria-hidden="true" />
+                      )}
+                      {link.name}
+                    </>
+                  )}
+                </NavLink>
+              ))}
+            </nav>
+
+            <button
+              onClick={() => setIsMobileMenuOpen((v) => !v)}
+              className="md:hidden size-10 rounded-xl glass flex items-center justify-center text-foreground hover:text-white cursor-pointer"
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? (
+                <X className="size-5" aria-hidden="true" />
+              ) : (
+                <Menu className="size-5" aria-hidden="true" />
+              )}
+            </button>
+          </div>
+        </Layout>
+      </div>
+
+      {/* Mobile drawer */}
+      <div
+        className={cn(
+          "md:hidden fixed inset-0 z-30 bg-background/95 backdrop-blur-2xl transition-all duration-500",
+          isMobileMenuOpen
+            ? "visible opacity-100"
+            : "invisible opacity-0"
+        )}
+      >
+        <div className="flex h-full flex-col px-6 pt-28 pb-10">
+          <nav className="flex-1" aria-label="Mobile">
+            <ul className="space-y-2">
+              {links.map((link, index) => (
+                <li
+                  key={link.path}
+                  className={cn(
+                    "transition-all duration-500 ease-out",
+                    isMobileMenuOpen
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-5 opacity-0"
+                  )}
+                  style={{ transitionDelay: isMobileMenuOpen ? `${120 + index * 70}ms` : "0ms" }}
+                >
                   <NavLink
                     to={link.path}
+                    end={link.path === "/"}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={({ isActive }) =>
-                      `block px-4 py-3 text-base font-medium rounded-lg transition-all duration-300 ${
+                      cn(
+                        "flex items-center gap-3 font-display text-3xl font-bold tracking-wide transition-colors duration-300 py-3",
                         isActive
-                          ? "text-primary-red bg-red-500/10 border border-red-500/20"
-                          : "text-white hover:text-primary-red hover:bg-white/5"
-                      }`
+                          ? "text-gradient"
+                          : "text-muted hover:text-white"
+                      )
                     }
                   >
                     {link.name}
@@ -149,8 +134,17 @@ export const Navbar = () => {
               ))}
             </ul>
           </nav>
+
+          <div className="border-t border-border pt-6 flex items-center justify-between">
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-subtle">
+              Cinema · Curated
+            </span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-crimson">
+              Est. 2026
+            </span>
+          </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 };

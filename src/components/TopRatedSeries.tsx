@@ -3,6 +3,8 @@ import { getRandomSubset } from "@/utilities/gerRandomSubsets";
 import { useMemo } from "react";
 import { NavLink } from "react-router-dom";
 import { MediaCard } from "./MediaCard";
+import { MediaGrid } from "./MediaGrid";
+import { SectionHeading } from "./SectionHeading";
 
 export const TopRatedSeries = () => {
   const { data: seriesData } = useGetTopRatedQuery({
@@ -16,16 +18,13 @@ export const TopRatedSeries = () => {
   );
 
   return (
-    <div className="text-white mt-12">
-      {/* title */}
-      <div className="flex flex-row items-end w-full mb-12">
-        <h1 className="text-2xl md:text-3xl font-oswald font-bold">
-          Top Rated series
-        </h1>
-        <div className="h-px flex-1 bg-primary/30 mb-1.5 ml-2"></div>
-      </div>
-      {/* series */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+    <section className="py-14 md:py-20">
+      <SectionHeading
+        eyebrow="Critically acclaimed"
+        title="Top Rated Series"
+        description="The highest-rated shows, measured by real audience votes."
+      />
+      <MediaGrid>
         {series
           ?.filter((s) => s.vote_count > 200)
           .map((series) => (
@@ -33,7 +32,7 @@ export const TopRatedSeries = () => {
               <MediaCard media={series} />
             </NavLink>
           ))}
-      </div>
-    </div>
+      </MediaGrid>
+    </section>
   );
 };

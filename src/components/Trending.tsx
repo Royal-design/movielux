@@ -3,20 +3,20 @@ import {
   useGetGenresQuery,
 } from "@/redux/features/movieApi";
 import type { MediaItemType } from "@/types/MediaType";
-import React, { useMemo, useState } from "react";
-import { SkeletonCard } from "./SkeletonCard";
-
+import { useMemo, useState } from "react";
 import { GenresSlide } from "./GenresSlide";
 import { MediaCard } from "./MediaCard";
+import { MediaGrid } from "./MediaGrid";
+import { SectionHeading } from "./SectionHeading";
+import { EmptyState } from "./EmptyState";
+import { ErrorState } from "./ErrorState";
 import { getRandomSubset } from "@/utilities/gerRandomSubsets";
 import { NavLink } from "react-router-dom";
 
 export const Trending: React.FC = () => {
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
 
-  const { data: genresData } = useGetGenresQuery({
-    mediaType: "movie",
-  });
+  const { data: genresData } = useGetGenresQuery({ mediaType: "movie" });
 
   const {
     data: moviesData,
@@ -43,13 +43,12 @@ export const Trending: React.FC = () => {
   };
 
   return (
-    <div className="text-white ">
-      <div className="flex flex-row items-end w-full mb-12">
-        <h1 className="text-2xl md:text-3xl font-oswald font-bold">
-          Trending Movies
-        </h1>
-        <div className="h-px flex-1 bg-primary/30 mb-1.5 ml-2"></div>
-      </div>
+    <section className="py-14 md:py-20">
+      <SectionHeading
+        eyebrow="Featured"
+        title="Trending Movies"
+        description="The films everyone's talking about, filtered by the genres you love."
+      />
 
       <GenresSlide
         genresData={genresData ?? { genres: [] }}
@@ -57,22 +56,24 @@ export const Trending: React.FC = () => {
         toggleGenre={toggleGenre}
       />
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
-        {isFetching || isLoading ? (
-          Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)
-        ) : trendingMovies && trendingMovies.length > 0 ? (
-          trendingMovies.map((media: MediaItemType) => (
-            <div key={media.id} className="w-full h-full relative">
-              <NavLink to={`/movies/movie/${media.id}`}>
-                <MediaCard media={media} />
-              </NavLink>
-            </div>
-          ))
-        ) : (
-          <p className="text-primary-red  w-full">Too much filtering</p>
-        )}
-      </div>
-      {isError && <div>Error fetching trending movies.</div>}
-    </div>
+      {isError ? (
+        <ErrorState message="Error fetching trending movies." />
+      ) : isFetching || isLoading ? (
+        <MediaGrid loading skeletonCount={8} />
+      ) : trendingMovies.length > 0 ? (
+        <MediaGrid>
+          {trendingMovies.map((media: MediaItemType) => (
+            <NavLink key={media.id} to={`/movies/movie/${media.id}`}>
+              <MediaCard media={media} />
+            </NavLink>
+          ))}
+        </MediaGrid>
+      ) : (
+        <EmptyState
+          title="No films found"
+          description="Try removing a genre filter to widen the search."
+        />
+      )}
+    </section>
   );
 };

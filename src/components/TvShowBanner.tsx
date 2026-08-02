@@ -1,7 +1,7 @@
 import { useGetTopRatedQuery } from "@/redux/features/movieApi";
-import React from "react";
-import { Card, CardContent } from "./ui/card";
 import { getMediaTitle } from "@/utilities/MediaUtilities";
+import { NavLink } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
 
 export const TvShowBanner: React.FC = () => {
   const { data: TvShowData } = useGetTopRatedQuery({
@@ -14,31 +14,38 @@ export const TvShowBanner: React.FC = () => {
       : 0;
   const tvShow = TvShowData?.results[n];
 
+  if (!tvShow) return null;
+
   return (
-    <div className="w-full md:max-w-sm  mx-auto">
-      {tvShow && (
-        <Card className="p-0 gap-0 w-full h-[400px] sm:h-[450px] border-primary/30 rounded-none rounded-tr-3xl rounded-bl-3xl overflow-hidden relative">
-          <CardContent className="p-0 h-full relative">
-            <img
-              src={`https://image.tmdb.org/t/p/original/${tvShow.poster_path}`}
-              alt={getMediaTitle(tvShow)}
-              className="absolute inset-0 w-full h-full object-cover z-0"
-            />
-            <div className="absolute inset-0 w-full h-full flex flex-col justify-center p-4 sm:p-6 md:p-8 bg-background/80 z-10">
-              <div className="text-white w-full">
-                <h2 className="text-xl sm:text-2xl  md:text-3xl lg:text-4xl font-cinzel font-bold mb-3 sm:mb-4 leading-tight">
-                  Our Top Rated TV Show
-                </h2>
-                <p className="text-lg md:text-xl font-normal text-gray-200 leading-relaxed">
-                  Experience the thrill of our highest-rated series, where epic
-                  storytelling and unforgettable characters come together. Join
-                  the journey that has captivated audiences around the world!
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+    <NavLink
+      to={`/series/${tvShow.id}`}
+      className="group relative block h-[20rem] w-full overflow-hidden rounded-[1.75rem] border border-border shadow-soft transition-all duration-500 hover:-translate-y-1 hover:border-gold/40 hover:shadow-lift sm:h-[24rem]"
+    >
+      <img
+        src={`https://image.tmdb.org/t/p/original/${tvShow.poster_path}`}
+        alt={getMediaTitle(tvShow)}
+        loading="lazy"
+        className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-105"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/20" />
+
+      <div className="absolute inset-0 flex flex-col justify-end p-5 sm:p-7">
+        <span className="mb-3 inline-flex w-fit items-center gap-2 rounded-full glass px-3 py-1 font-mono text-[10px] uppercase tracking-[0.3em] text-gold">
+          <span className="size-1.5 rounded-full bg-gold animate-pulse-soft" aria-hidden="true" />
+          Editor's Pick
+        </span>
+        <h2 className="font-display text-xl font-bold leading-tight text-white sm:text-2xl">
+          Our Top Rated TV Show
+        </h2>
+        <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/70 line-clamp-3">
+          Epic storytelling and unforgettable characters — the journey that
+          has captivated audiences worldwide.
+        </p>
+        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-gold">
+          View series
+          <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
+        </span>
+      </div>
+    </NavLink>
   );
 };

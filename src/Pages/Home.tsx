@@ -16,9 +16,8 @@ export const Home: React.FC = () => {
     <div>
       <HeroSection onLoaded={() => setIsHeroLoaded(true)} />
 
-      {/* Only render MovieCards after hero has loaded */}
       {isHeroLoaded && (
-        <Layout className="relative mb-20 mt-8">
+        <Layout>
           <Trending />
           <TopRatedTvShow />
           <UpcomingMovies />

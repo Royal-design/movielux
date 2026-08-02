@@ -2,19 +2,21 @@ import React, { useCallback, useEffect, useRef } from "react";
 import type {
   EmblaCarouselType,
   EmblaEventType,
-  EmblaOptionsType
+  EmblaOptionsType,
 } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import {
   NextButton,
   PrevButton,
-  usePrevNextButtons
+  usePrevNextButtons,
 } from "./EmblaCarouselArrowButtons";
 import type { MediaItemType } from "@/types/MediaType";
 import { getMediaReleaseDate, getMediaTitle } from "@/utilities/MediaUtilities";
 import { formatDate } from "@/utilities/formateDate";
 import { useGetGenresQuery } from "@/redux/features/movieApi";
 import { getGenreNames } from "@/utilities/getGenreNames";
+import { NavLink } from "react-router-dom";
+import { Star, ArrowRight } from "lucide-react";
 
 const TWEEN_FACTOR_BASE = 0.2;
 
@@ -28,7 +30,7 @@ export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     ...options,
-    align: "start"
+    align: "start",
   });
   const tweenFactor = useRef(0);
   const tweenNodes = useRef<HTMLElement[]>([]);
@@ -37,7 +39,7 @@ export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
     prevBtnDisabled,
     nextBtnDisabled,
     onPrevButtonClick,
-    onNextButtonClick
+    onNextButtonClick,
   } = usePrevNextButtons(emblaApi);
 
   const setTweenNodes = useCallback((emblaApi: EmblaCarouselType) => {
@@ -107,67 +109,88 @@ export const TopRatedSlide: React.FC<PropType> = ({ slides, options }) => {
     <div>
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex touch-pan-y">
-          {slides.map((show, index) => (
-            <div
-              key={show.id}
-              className={`transform-gpu min-w-0 ${
-                index !== 0 ? "pl-4" : ""
-              } flex-[0_0_100%] md:flex-[0_0_75%]`}
-            >
-              <div className="rounded-[1.8rem] overflow-hidden">
-                <div className="relative w-full embla__parallax__layer">
-                  <img
-                    className="rounded-[1.8rem] w-full h-[20rem] sm:h-[25rem]  object-cover"
-                    src={`https://image.tmdb.org/t/p/w500${show.backdrop_path}`}
-                    alt={getMediaTitle(show)}
-                  />
-                  <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/90 via-black/80 to-transparent text-white p-3 sm:p-4 md:p-6">
-                    <div className="w-full max-w-full flex flex-col space-y-2 sm:space-y-3 md:space-y-4">
-                      <p className="text-primary text-sm sm:text-lg md:text-xl font-rajdhani flex flex-wrap items-center gap-2">
-                        <span>★ {show.vote_average.toFixed(1)}</span>
-                        <span className="text-white bg-primary rounded-md px-2 text-xs sm:text-sm md:text-base">
-                          {formatDate(getMediaReleaseDate(show))}
+          {slides.map((show, index) => {
+            const genreList = genres
+              ? getGenreNames(show.genre_ids, genres).split(",").slice(0, 3)
+              : [];
+            return (
+              <div
+                key={show.id}
+                className={`transform-gpu min-w-0 ${
+                  index !== 0 ? "pl-4" : ""
+                } flex-[0_0_100%] md:flex-[0_0_75%]`}
+              >
+                <NavLink
+                  to={`/series/${show.id}`}
+                  className="block rounded-[1.75rem] overflow-hidden"
+                >
+                  <div className="relative w-full embla__parallax__layer">
+                    <img
+                      className="h-[20rem] w-full rounded-[1.75rem] object-cover sm:h-[24rem]"
+                      src={`https://image.tmdb.org/t/p/w500${show.backdrop_path}`}
+                      alt={getMediaTitle(show)}
+                    />
+                    <div className="absolute inset-0 rounded-[1.75rem] bg-gradient-to-t from-background via-background/55 to-transparent" />
+
+                    <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-6 md:p-8">
+                      <div className="flex flex-col gap-2.5 sm:gap-3">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="inline-flex items-center gap-1.5 rounded-full glass px-3 py-1">
+                            <Star
+                              className="size-3.5 fill-gold text-gold"
+                              aria-hidden="true"
+                            />
+                            <span className="font-mono text-sm font-bold text-white">
+                              {show.vote_average.toFixed(1)}
+                            </span>
+                          </span>
+                          {formatDate(getMediaReleaseDate(show)) && (
+                            <span className="font-mono text-xs uppercase tracking-[0.25em] text-white/70">
+                              {formatDate(getMediaReleaseDate(show))}
+                            </span>
+                          )}
+                          {genreList.map((genre) => (
+                            <span
+                              key={genre}
+                              className="rounded-full border border-gold/30 bg-gold/10 px-2.5 py-0.5 font-mono text-[11px] text-gold"
+                            >
+                              {genre.trim()}
+                            </span>
+                          ))}
+                        </div>
+
+                        <h2 className="font-display text-2xl font-bold leading-tight text-white sm:text-3xl md:text-4xl">
+                          {getMediaTitle(show)}
+                        </h2>
+
+                        <p className="line-clamp-2 max-w-2xl text-sm leading-relaxed text-white/80 sm:line-clamp-3 md:text-base">
+                          {show.overview}
+                        </p>
+
+                        <span className="mt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-gold">
+                          Explore series
+                          <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
                         </span>
-                      </p>
-                      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-playfair font-bold text-white leading-tight">
-                        {getMediaTitle(show)}
-                      </h2>
-                      <p className="text-white text-lg font-light leading-relaxed font-urbanist line-clamp-2 sm:line-clamp-3 md:line-clamp-4">
-                        {show.overview}
-                      </p>
-                      {/* genres */}
-                      <div className="flex items-center gap-2">
-                        {genres &&
-                          getGenreNames(show.genre_ids, genres)
-                            .split(",")
-                            .map((genre, id) => (
-                              <span
-                                key={id}
-                                className="px-2 py-1 bg-primary rounded-md text-xs"
-                              >
-                                {genre}
-                              </span>
-                            ))}
                       </div>
                     </div>
                   </div>
-                </div>
+                </NavLink>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
-      <div className="flex gap-3 pl-4 mt-7">
+      <div className="mt-6 flex items-center gap-3 pl-1">
         <PrevButton
           onClick={onPrevButtonClick}
           disabled={prevBtnDisabled}
-          className="bg-primary/20 inline-flex cursor-pointer w-5 h-5 sm:w-7 sm:h-7 p-2 rounded-full text-white/60 items-center justify-center hover:bg-primary/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="inline-flex size-10 cursor-pointer items-center justify-center rounded-full glass text-white/70 transition-all duration-300 hover:border-white/30 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
         />
         <NextButton
           onClick={onNextButtonClick}
           disabled={nextBtnDisabled}
-          className="bg-primary/20 inline-flex cursor-pointer w-5 h-5 sm:w-7 sm:h-7 p-2 rounded-full text-white/60 items-center justify-center hover:bg-primary/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="inline-flex size-10 cursor-pointer items-center justify-center rounded-full glass text-white/70 transition-all duration-300 hover:border-white/30 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
         />
       </div>
     </div>

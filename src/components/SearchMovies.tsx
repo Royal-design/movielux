@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { useSearchMediaQuery } from "@/redux/features/movieApi";
 import { MediaCard } from "./MediaCard";
+import { MediaGrid } from "./MediaGrid";
 import { Pagination } from "./Pagination";
-import { Spinner } from "./Spinner";
 import { Input } from "./ui/input";
-import { Label } from "@radix-ui/react-label";
+import { EmptyState } from "./EmptyState";
+import { ErrorState } from "./ErrorState";
+import { Search, Loader2 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 export const SearchMovies = () => {
@@ -21,13 +23,7 @@ export const SearchMovies = () => {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  const {
-    data: movies,
-    isLoading,
-    isError,
-    isFetching,
-    error
-  } = useSearchMediaQuery(
+  const { data: movies, isLoading, isError, isFetching } = useSearchMediaQuery(
     { query: debouncedQuery, page, mediaType: "movie" },
     { skip: !debouncedQuery }
   );
@@ -36,58 +32,65 @@ export const SearchMovies = () => {
   const handleNextPage = () => setPage((prev) => prev + 1);
 
   return (
-    <div className="space-y-6 text-white">
-      {/* search movies */}
-      <div className="relative">
-        <Label className="sr-only">Search</Label>
+    <div className="space-y-8">
+      <div className="relative max-w-xl">
+        <Search
+          className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-subtle"
+          aria-hidden="true"
+        />
         <Input
           type="text"
           value={searchQuery}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setSearchQuery(e.target.value)
           }
-          placeholder="Search movies..."
-          className="w-full max-w-sm px-4 py-2 rounded-lg border border-primary focus:ring-1 focus:ring-primary/50"
+          placeholder="Search movies by title..."
           aria-label="Movie search input"
+          className="h-12 rounded-2xl pl-11 pr-11"
         />
         {(isLoading || isFetching) && (
-          <div className="absolute right-3 top-2.5">
-            <Spinner />
-          </div>
+          <Loader2
+            className="absolute right-4 top-1/2 size-4 -translate-y-1/2 animate-spin text-crimson"
+            aria-hidden="true"
+          />
         )}
       </div>
-      {/* Error */}
+
       {isError && (
-        <div className="text-red-500 p-4 rounded bg-red-50">
-          Error:{" "}
-          {error instanceof Error ? error.message : "Failed to fetch movies"}
-        </div>
+        <ErrorState message="Something went wrong while searching." />
       )}
 
-      {/* Movies */}
       {!isError && debouncedQuery && (
         <>
-          {movies && movies.results.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {movies?.results.map((movie) => (
-                <NavLink to={`/movies/movie/${movie.id}`}>
-                  <MediaCard key={movie.id} media={movie} />
-                </NavLink>
-              ))}
-            </div>
+          {isLoading ? (
+            <MediaGrid loading skeletonCount={8} />
+          ) : movies && movies.results.length > 0 ? (
+            <>
+              <p className="font-mono text-xs uppercase tracking-[0.25em] text-subtle">
+                {movies.total_results.toLocaleString()} results for "
+                {debouncedQuery}"
+              </p>
+              <MediaGrid>
+                {movies.results.map((movie) => (
+                  <NavLink key={movie.id} to={`/movies/movie/${movie.id}`}>
+                    <MediaCard media={movie} />
+                  </NavLink>
+                ))}
+              </MediaGrid>
+              <Pagination
+                currentPage={page}
+                totalPages={movies?.total_pages || 1}
+                onPrevious={handlePreviousPage}
+                onNext={handleNextPage}
+                isDisabled={isFetching}
+              />
+            </>
           ) : (
-            <div className="text-center py-8 text-gray-500">
-              No movies found. Try a different search.
-            </div>
+            <EmptyState
+              title="No movies found"
+              description="We couldn't find anything matching that title. Try a different search."
+            />
           )}
-          {/* Pagination */}
-          <Pagination
-            currentPage={page}
-            totalPages={movies?.total_pages || 1}
-            onPrevious={handlePreviousPage}
-            onNext={handleNextPage}
-            isDisabled={isFetching}
-          />
         </>
       )}
     </div>

@@ -1,9 +1,5 @@
-import React from "react";
+import { PageLoader } from "./PageLoader";
 
 export const SuspenseSpinner: React.FC = () => {
-  return (
-    <div className="justify-center items-center flex h-dvh">
-      <div className="loader" />
-    </div>
-  );
+  return <PageLoader label="Loading experience" />;
 };

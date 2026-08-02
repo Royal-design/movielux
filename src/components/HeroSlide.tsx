@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "./ui/button";
-import { RiPlayLargeFill } from "react-icons/ri";
+import { Play, Info, Star } from "lucide-react";
 import { formatDate } from "@/utilities/formateDate";
 import type { MediaItemType } from "@/types/MediaType";
-import { getMediaReleaseDate, getMediaTitle } from "@/utilities/MediaUtilities";
+import {
+  getMediaReleaseDate,
+  getMediaTitle,
+} from "@/utilities/MediaUtilities";
 import { NavLink } from "react-router-dom";
 import { useTrailer } from "./useTrailer";
 import { MediaTrailer } from "./MediaTrailer";
@@ -12,99 +15,98 @@ import { Layout } from "@/layout/Layout";
 export const HeroSlide: React.FC<{ media: MediaItemType }> = ({ media }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const trailer = useTrailer("movie", media.id);
-  React.useEffect(() => {
-    const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsPlaying(false);
-      }
-    };
-
-    if (isPlaying) {
-      document.addEventListener("keydown", handleEsc);
-      document.body.style.overflow = "hidden";
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleEsc);
-      document.body.style.overflow = "unset";
-    };
-  }, [isPlaying]);
+  const title = getMediaTitle(media);
+  const year = formatDate(getMediaReleaseDate(media));
 
   return (
-    <div className="relative h-full w-full min-h-dvh md:h-screen">
-      {/* Background Image */}
-      <div className="absolute inset-0 w-full h-full">
+    <div className="relative h-full w-full">
+      {/* Background */}
+      <div className="absolute inset-0">
         <img
           src={`https://image.tmdb.org/t/p/original/${
             media.backdrop_path || media.poster_path
           }`}
-          alt={getMediaTitle(media)}
-          className="w-full h-full object-cover"
+          alt={title}
+          className="size-full object-cover"
         />
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-background/90 to-background/20"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-background to-background/10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
       </div>
 
-      <Layout className="relative z-10 h-screen">
-        {/* Content */}
-        <div className="w-full flex h-full   flex-col justify-center">
-          <div className="w-full max-w-4xl space-y-4 sm:space-y-6">
-            {/* Rating and Date */}
-            <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base md:text-lg">
-              <span className="text-amber-300 font-rajdhani flex items-center">
-                ★ {Number(media.vote_average).toFixed(1)}
+      <Layout className="relative z-10 flex h-dvh flex-col justify-center md:h-screen">
+        <div className="max-w-3xl space-y-5 sm:space-y-6">
+          <div
+            className="flex flex-wrap items-center gap-3 animate-fade-up"
+            style={{ animationDelay: "120ms" }}
+          >
+            <span className="inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5">
+              <Star
+                className="size-3.5 fill-gold text-gold"
+                aria-hidden="true"
+              />
+              <span className="font-mono text-sm font-bold text-white">
+                {media.vote_average.toFixed(1)}
               </span>
-              <span className="text-white/80">•</span>
-              <span className="text-white/80 text-sm sm:text-base">
-                {formatDate(getMediaReleaseDate(media))}
+            </span>
+            {year && (
+              <span className="font-mono text-xs uppercase tracking-[0.25em] text-white/70">
+                {year}
               </span>
-            </div>
+            )}
+            <span className="font-mono text-xs uppercase tracking-[0.3em] text-crimson">
+              {"title" in media ? "Film" : "Series"}
+            </span>
+          </div>
 
-            {/* Title */}
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-cinzel font-bold text-white leading-tight max-w-4xl">
-              {getMediaTitle(media)}
-            </h1>
+          <h1
+            className="animate-fade-up font-display text-3xl font-bold leading-tight text-white sm:text-5xl md:text-6xl"
+            style={{ animationDelay: "220ms" }}
+          >
+            {title}
+          </h1>
 
-            {/* Overview */}
-            <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl line-clamp-3 sm:line-clamp-4 ">
-              {media.overview}
-            </p>
+          <p
+            className="animate-fade-up line-clamp-3 max-w-2xl text-sm leading-relaxed text-white/85 sm:line-clamp-4 sm:text-base md:text-lg"
+            style={{ animationDelay: "320ms" }}
+          >
+            {media.overview}
+          </p>
 
-            {/* Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
+          <div
+            className="flex flex-col gap-3 pt-2 animate-fade-up sm:flex-row sm:gap-4"
+            style={{ animationDelay: "420ms" }}
+          >
+            <Button
+              size="lg"
+              onClick={() => setIsPlaying(true)}
+              disabled={!trailer?.key}
+              className="w-full sm:w-auto"
+            >
+              <Play className="ml-0.5" aria-hidden="true" />
+              {trailer?.key ? "Play Trailer" : "No Trailer"}
+            </Button>
+            <NavLink to={`/movies/movie/${media.id}`} className="w-full sm:w-auto">
               <Button
-                onClick={() => setIsPlaying(true)}
-                disabled={!trailer?.key}
-                className="cursor-pointer bg-red-600 hover:bg-red-700 disabled:bg-gray-600 disabled:cursor-not-allowed w-full sm:w-auto px-6 py-3 rounded-xl hover:scale-105 duration-200 transition-all flex items-center justify-center gap-2"
+                size="lg"
+                variant="outline"
+                className="w-full border-white/25 text-white sm:w-auto"
               >
-                <RiPlayLargeFill className="text-white w-5 h-5" />
-                <span className="text-white font-semibold">
-                  {trailer?.key ? "Play Trailer" : "No Trailer"}
-                </span>
+                <Info aria-hidden="true" />
+                More Info
               </Button>
-              <NavLink to={`/movies/movie/${media.id}`}>
-                <Button
-                  variant="ghost"
-                  className="border-2 border-white/30 hover:border-white/60 hover:bg-white/10 rounded-xl text-white px-6 py-3 font-semibold transition-all w-full sm:w-auto"
-                >
-                  More Info
-                </Button>
-              </NavLink>
-            </div>
+            </NavLink>
           </div>
         </div>
-
-        {/* Play Trailer Modal */}
-        {isPlaying && (
-          <MediaTrailer
-            media={media}
-            isPlaying={isPlaying}
-            setIsPlaying={setIsPlaying}
-            trailerKey={trailer?.key ?? ""}
-          />
-        )}
       </Layout>
+
+      {isPlaying && trailer?.key && (
+        <MediaTrailer
+          media={media}
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
+          trailerKey={trailer.key}
+        />
+      )}
     </div>
   );
 };

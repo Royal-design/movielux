@@ -2,43 +2,42 @@ import React, { useMemo } from "react";
 import { useGetUpcomingQuery } from "@/redux/features/movieApi";
 import { getRandomSubset } from "@/utilities/gerRandomSubsets";
 import { UpcomingMoviesSlides } from "./UpcomingMoviesSlides";
-import { Skeleton } from "./ui/skeleton";
+import { SectionHeading } from "./SectionHeading";
+import { ErrorState } from "./ErrorState";
 
 export const UpcomingMovies: React.FC = () => {
-  const {
-    data: moviesData,
-    isError,
-    isLoading,
-    isFetching,
-  } = useGetUpcomingQuery({
-    mediaType: "movie",
-    page: 1,
-  });
+  const { data: moviesData, isError, isLoading, isFetching } =
+    useGetUpcomingQuery({
+      mediaType: "movie",
+      page: 1,
+    });
 
   const movies = useMemo(() => {
     return getRandomSubset(moviesData?.results, 8);
   }, [moviesData?.results]);
 
   return (
-    <div className="text-white pt-8 md:pt-12">
-      <div className="flex flex-row items-end w-full mb-12">
-        <h1 className="text-2xl md:text-3xl font-oswald font-bold">
-          Upcoming Movies
-        </h1>
-        <div className="h-px flex-1 bg-primary/30 mb-1.5 ml-2"></div>
-      </div>
-      {isFetching || isLoading ? (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+    <section className="py-14 md:py-20">
+      <SectionHeading
+        eyebrow="On the horizon"
+        title="Upcoming Movies"
+        description="Mark your calendar — the films about to light up the big screen."
+      />
+
+      {isError ? (
+        <ErrorState message="Error fetching upcoming movies." />
+      ) : isFetching || isLoading ? (
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
           {Array.from({ length: 4 }).map((_, i) => (
-            <Skeleton key={i} />
+            <div
+              key={i}
+              className="aspect-[2/3] rounded-2xl border border-border bg-surface skeleton-shimmer"
+            />
           ))}
         </div>
       ) : (
         <UpcomingMoviesSlides movies={movies} />
       )}
-      {isError && (
-        <div className="text-primary-red">Error fetching trending movies.</div>
-      )}
-    </div>
+    </section>
   );
 };

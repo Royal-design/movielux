@@ -1,6 +1,5 @@
-import { IoIosArrowRoundBack } from "react-icons/io";
-import { IoIosArrowRoundForward } from "react-icons/io";
-import { Button } from "./ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type PaginationProps = {
   currentPage: number;
@@ -15,25 +14,34 @@ export const Pagination = ({
   totalPages,
   onPrevious,
   onNext,
-  isDisabled
+  isDisabled,
 }: PaginationProps) => (
-  <div className="flex justify-center gap-4 mt-6">
-    <Button
+  <div className="flex items-center justify-center gap-4 pt-2">
+    <button
       onClick={onPrevious}
       disabled={currentPage === 1 || isDisabled}
-      className="disabled:opacity-50 hover:bg-transparent bg-transparent"
+      aria-label="Previous page"
+      className={cn(
+        "flex size-10 cursor-pointer items-center justify-center rounded-full border border-border-strong bg-white/[0.03] text-foreground transition-all duration-300 hover:border-crimson/40 hover:text-crimson disabled:cursor-not-allowed disabled:opacity-35"
+      )}
     >
-      <IoIosArrowRoundBack className="text-white/80 size-8" />
-    </Button>
-    <span className="flex items-center text-xs">
-      Page {currentPage} of {totalPages}
+      <ChevronLeft className="size-5" aria-hidden="true" />
+    </button>
+
+    <span className="rounded-full glass px-4 py-1.5 font-mono text-xs text-muted">
+      Page <span className="font-bold text-foreground">{currentPage}</span> of{" "}
+      <span className="font-bold text-foreground">{totalPages || 1}</span>
     </span>
-    <Button
+
+    <button
       onClick={onNext}
       disabled={currentPage === totalPages || isDisabled}
-      className="disabled:opacity-50 hover:bg-transparent bg-transparent"
+      aria-label="Next page"
+      className={cn(
+        "flex size-10 cursor-pointer items-center justify-center rounded-full border border-border-strong bg-white/[0.03] text-foreground transition-all duration-300 hover:border-crimson/40 hover:text-crimson disabled:cursor-not-allowed disabled:opacity-35"
+      )}
     >
-      <IoIosArrowRoundForward className="text-white/80 size-8" />
-    </Button>
+      <ChevronRight className="size-5" aria-hidden="true" />
+    </button>
   </div>
 );

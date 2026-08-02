@@ -1,139 +1,60 @@
 import { cn } from "@/lib/utils";
 import type { PersonType } from "@/types/PersonType";
-import { getGenderLabel } from "@/utilities/getGender";
-import React from "react";
-import { Card, CardContent } from "./ui/card";
-import type { CastMember } from "@/types/CreditsType";
+import type { CastMember, CrewMember } from "@/types/CreditsType";
+import { User } from "lucide-react";
 
 interface PersonProps {
-  person: CastMember | PersonType;
+  person: CastMember | CrewMember | PersonType;
+  role?: string;
 }
 
-export const PopularPersonCard: React.FC<PersonProps> = ({ person }) => {
+export const PopularPersonCard: React.FC<PersonProps> = ({ person, role }) => {
   return (
-    <Card
-      className={cn(
-        "p-0 gap-0",
-        "group relative w-full h-full",
-        "min-h-[280px] sm:min-h-[320px] md:min-h-[360px]",
-        "bg-gradient-to-b from-zinc-900/50 to-zinc-950/80",
-        "border border-zinc-800/50 hover:border-zinc-700/70",
-        "overflow-hidden transition-all duration-300 ease-in-out",
-        "hover:scale-[1.02] hover:shadow-xl hover:shadow-zinc-900/20",
-        "cursor-pointer"
-      )}
+    <article
+      className="group relative h-full w-full cursor-pointer overflow-hidden rounded-2xl border border-border bg-surface shadow-soft transition-all duration-500 hover:-translate-y-1.5 hover:border-crimson/30 hover:shadow-lift"
+      aria-label={person.name}
     >
-      <CardContent className="p-0 h-full flex flex-col">
-        {/* Image Container with Gradient Overlay */}
-        <div className="relative flex-shrink-0 h-40 sm:h-48 md:h-56 overflow-hidden">
-          {person.profile_path ? (
-            <>
-              <img
-                src={`https://image.tmdb.org/t/p/w400${person.profile_path}`}
-                alt={person.name}
-                className={cn(
-                  "w-full h-full object-cover object-center",
-                  "transition-transform duration-500 ease-out",
-                  "group-hover:scale-110"
-                )}
-                loading="lazy"
-              />
-              {/* Gradient overlay for better text readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-            </>
-          ) : (
-            <div
-              className={cn(
-                "w-full h-full bg-gradient-to-br from-zinc-700 to-zinc-800",
-                "flex items-center justify-center text-zinc-400",
-                "text-2xl font-light"
-              )}
-            >
-              <svg
-                className="w-12 h-12"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-              </svg>
-            </div>
-          )}
+      <div className="relative aspect-[3/4] w-full overflow-hidden">
+        {person.profile_path ? (
+          <img
+            src={`https://image.tmdb.org/t/p/w400${person.profile_path}`}
+            alt={person.name}
+            loading="lazy"
+            className="size-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
+          />
+        ) : (
+          <div className="flex size-full items-center justify-center bg-gradient-to-br from-surface-raised to-surface text-subtle">
+            <User className="size-14" aria-hidden="true" />
+          </div>
+        )}
 
-          {/* Popularity Badge */}
-          <div
-            className={cn(
-              "absolute top-2 right-2 px-2 py-1 rounded-full",
-              "bg-primary/90 backdrop-blur-sm",
-              "text-xs font-semibold text-white",
-              "shadow-lg"
-            )}
-          >
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent" />
+
+        <div className="absolute right-3 top-3">
+          <span className="rounded-full glass px-2.5 py-1 font-mono text-[10px] font-semibold text-white">
             ★ {person.popularity.toFixed(1)}
-          </div>
+          </span>
         </div>
 
-        {/* Content Section */}
-        <div className="flex-1 p-3 sm:p-4 flex flex-col justify-between">
-          <div className="space-y-2">
-            {/* Name */}
-            <h3
-              className={cn(
-                "text-base sm:text-lg font-bold text-white",
-                "line-clamp-2 leading-tight",
-                "group-hover:text-primary transition-colors duration-200"
-              )}
-            >
-              {person.name}
-            </h3>
-
-            {/* Known For Department */}
-            <div
-              className={cn(
-                "inline-flex items-center px-2 py-1 rounded-md",
-                "bg-zinc-800/60 border border-zinc-700/50",
-                "text-xs font-medium text-zinc-300"
-              )}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-primary mr-2" />
-              {person.known_for_department}
-            </div>
-          </div>
-
-          {/* Footer Info */}
-          <div className="mt-3 pt-3 border-t border-zinc-800/50">
-            <div className="flex items-center justify-between text-xs text-zinc-400">
-              <span className="capitalize">
-                {getGenderLabel(person.gender)}
-              </span>
-              <div className="flex items-center space-x-1">
-                <svg
-                  className="w-3 h-3 text-primary"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                </svg>
-                <span className="font-medium text-zinc-300">
-                  {person.popularity > 10
-                    ? "Hot"
-                    : person.popularity > 5
-                    ? "Popular"
-                    : "Rising"}
+        <div className="absolute inset-x-0 bottom-0 p-3.5 sm:p-4">
+          <h3 className="font-semibold leading-snug text-white line-clamp-1">
+            {person.name}
+          </h3>
+          <p className="mt-1 flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-white/60">
+            <span className="text-gold">{person.known_for_department}</span>
+            {role && (
+              <>
+                <span className="size-1 rounded-full bg-white/30" aria-hidden="true" />
+                <span className="line-clamp-1 normal-case tracking-normal text-white/70">
+                  {role}
                 </span>
-              </div>
-            </div>
-          </div>
+              </>
+            )}
+          </p>
         </div>
+      </div>
 
-        {/* Hover Effect Overlay */}
-        <div
-          className={cn(
-            "absolute inset-0 bg-gradient-to-t from-amber-500/10 via-transparent to-transparent",
-            "opacity-0 group-hover:opacity-100 transition-opacity duration-300",
-            "pointer-events-none"
-          )}
-        />
-      </CardContent>
-    </Card>
+      <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" style={{ boxShadow: "inset 0 0 0 1px rgb(228 58 69 / 0.35)" }} aria-hidden="true" />
+    </article>
   );
 };

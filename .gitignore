@@ -27,3 +27,5 @@ dist-ssr
 
 # Ignore environment files
 .env
+
+.agents/

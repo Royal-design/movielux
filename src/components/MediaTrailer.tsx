@@ -2,7 +2,8 @@ import { hideNavbar, showNavbar } from "@/redux/features/navBar";
 import { useAppDispatch } from "@/redux/store";
 import type { MediaItemType } from "@/types/MediaType";
 import { getMediaTitle } from "@/utilities/MediaUtilities";
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
+import { X } from "lucide-react";
 
 export const MediaTrailer: React.FC<{
   media: MediaItemType;
@@ -42,7 +43,7 @@ export const MediaTrailer: React.FC<{
 
     return () => {
       document.removeEventListener("keydown", handleEsc);
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "";
     };
   }, [isPlaying, handleCloseModal]);
 
@@ -50,15 +51,18 @@ export const MediaTrailer: React.FC<{
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-4 backdrop-blur-md animate-fade-in"
       onClick={handleCloseModal}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${getMediaTitle(media)} trailer`}
     >
       <div
-        className="relative w-full max-w-5xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl"
+        className="relative w-full max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-black shadow-lift animate-scale-in"
         onClick={(e) => e.stopPropagation()}
       >
         <iframe
-          className="w-full h-full"
+          className="aspect-video w-full"
           src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&rel=0`}
           title={`${getMediaTitle(media)} - Trailer`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -67,15 +71,15 @@ export const MediaTrailer: React.FC<{
 
         <button
           onClick={handleCloseModal}
-          className="absolute -top-12 right-0 sm:top-4 sm:right-4 text-white text-2xl font-bold bg-black/70 hover:bg-black/90 w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
+          className="absolute right-3 top-3 flex size-10 items-center justify-center rounded-full border border-white/15 bg-black/70 text-white/85 backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:text-white cursor-pointer"
           aria-label="Close trailer"
         >
-          ✕
+          <X className="size-5" aria-hidden="true" />
         </button>
       </div>
 
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white/60 text-sm text-center">
-        Press ESC or click outside to close
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 font-mono text-xs uppercase tracking-[0.25em] text-white/50">
+        Press ESC to close
       </div>
     </div>
   );

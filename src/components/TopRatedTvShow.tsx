@@ -4,6 +4,7 @@ import { useGetTopRatedQuery } from "@/redux/features/movieApi";
 import { TopRatedSlide } from "./TopRatedSlide";
 import type { EmblaOptionsType } from "embla-carousel";
 import { getRandomSubset } from "@/utilities/gerRandomSubsets";
+import { SectionHeading } from "./SectionHeading";
 
 const OPTIONS: EmblaOptionsType = { dragFree: true, loop: true };
 
@@ -18,19 +19,21 @@ export const TopRatedTvShow: React.FC = () => {
   }, [TvShowData?.results]);
 
   return (
-    <div className="py-9  md:py-12 h-full  w-full">
-      <div className="flex flex-row items-end w-full mb-12">
-        <h1 className="text-2xl md:text-3xl font-oswald font-bold">
-          Top Rated TV Show
-        </h1>
-        <div className="h-px flex-1 bg-primary/30 mb-1.5 ml-2"></div>
-      </div>
-      <div className="flex flex-col md:flex-row gap-4 w-full h-full">
-        <TvShowBanner />
+    <section className="py-14 md:py-20">
+      <SectionHeading
+        eyebrow="Curated"
+        title="Top Rated TV Shows"
+        description="The series critics and audiences agree on — binge-worthy from episode one."
+      />
+
+      <div className="flex flex-col gap-6 md:flex-row md:gap-8">
+        <div className="w-full md:max-w-sm lg:max-w-xs">
+          <TvShowBanner />
+        </div>
         <div className="w-full">
           <TopRatedSlide slides={topRatedTvShow} options={OPTIONS} />
         </div>
       </div>
-    </div>
+    </section>
   );
 };

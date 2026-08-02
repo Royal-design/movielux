@@ -1,5 +1,5 @@
-import React from "react";
 import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 
 interface GenreButtonProps {
   genreId: number;
@@ -12,14 +12,20 @@ export const GenreButton: React.FC<GenreButtonProps> = ({
   genreId,
   genreName,
   selectedGenres,
-  toggleGenre
+  toggleGenre,
 }) => {
+  const active = selectedGenres.includes(genreId);
   return (
     <Button
+      type="button"
       onClick={() => toggleGenre(genreId)}
-      className={`px-3 py-1 h-6 text-xs text-white  text rounded-2xl border border-primary bg-background transition-colors duration-200 ${
-        selectedGenres.includes(genreId) ? "bg-primary" : ""
-      }`}
+      aria-pressed={active}
+      className={cn(
+        "h-9 cursor-pointer rounded-full px-4 text-xs font-semibold transition-all duration-300",
+        active
+          ? "bg-marquee text-white shadow-glow"
+          : "border border-border-strong bg-white/[0.03] text-muted hover:border-white/25 hover:bg-white/[0.06] hover:text-white"
+      )}
     >
       {genreName}
     </Button>

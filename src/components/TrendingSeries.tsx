@@ -1,6 +1,8 @@
 import { useGetTrendingQuery } from "@/redux/features/movieApi";
 import React, { useMemo } from "react";
 import { MediaCard } from "./MediaCard";
+import { MediaGrid } from "./MediaGrid";
+import { SectionHeading } from "./SectionHeading";
 import { getRandomSubset } from "@/utilities/gerRandomSubsets";
 import { NavLink } from "react-router-dom";
 
@@ -15,23 +17,21 @@ export const TrendingSeries: React.FC = () => {
     () => getRandomSubset(seriesData?.results, 12),
     [seriesData?.results]
   );
+
   return (
-    <div className="text-white mt-12 mb-20">
-      {/* title */}
-      <div className="flex flex-row items-end w-full mb-12">
-        <h1 className="text-2xl md:text-3xl font-oswald font-bold">
-          Trending series
-        </h1>
-        <div className="h-px flex-1 bg-primary/30 mb-1.5 ml-2"></div>
-      </div>
-      {/* series */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-        {series?.map((series) => (
+    <section className="py-14 md:py-20">
+      <SectionHeading
+        eyebrow="Binge worthy"
+        title="Trending Series"
+        description="The shows everyone's streaming right now."
+      />
+      <MediaGrid>
+        {series.map((series) => (
           <NavLink key={series.id} to={`/series/${series.id}`}>
             <MediaCard media={series} />
           </NavLink>
         ))}
-      </div>
-    </div>
+      </MediaGrid>
+    </section>
   );
 };

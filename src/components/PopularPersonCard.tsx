@@ -1,6 +1,5 @@
-import { cn } from "@/lib/utils";
-import type { PersonType } from "@/types/PersonType";
 import type { CastMember, CrewMember } from "@/types/CreditsType";
+import type { PersonType } from "@/types/PersonType";
 import { User } from "lucide-react";
 
 interface PersonProps {
@@ -44,7 +43,10 @@ export const PopularPersonCard: React.FC<PersonProps> = ({ person, role }) => {
             <span className="text-gold">{person.known_for_department}</span>
             {role && (
               <>
-                <span className="size-1 rounded-full bg-white/30" aria-hidden="true" />
+                <span
+                  className="size-1 rounded-full bg-white/30"
+                  aria-hidden="true"
+                />
                 <span className="line-clamp-1 normal-case tracking-normal text-white/70">
                   {role}
                 </span>
@@ -54,7 +56,11 @@ export const PopularPersonCard: React.FC<PersonProps> = ({ person, role }) => {
         </div>
       </div>
 
-      <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" style={{ boxShadow: "inset 0 0 0 1px rgb(228 58 69 / 0.35)" }} aria-hidden="true" />
+      <div
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{ boxShadow: "inset 0 0 0 1px rgb(228 58 69 / 0.35)" }}
+        aria-hidden="true"
+      />
     </article>
   );
 };
